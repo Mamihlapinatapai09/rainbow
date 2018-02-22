@@ -17,6 +17,11 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 ```
+## 页面地址
+``` bash
+主页面：http://localhost:8080/home
+后台管理页面：http://localhost:8080/admin
+```
 
 ## 后端接口
 ``` bash
