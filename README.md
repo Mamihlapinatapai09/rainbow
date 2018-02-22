@@ -18,9 +18,11 @@ npm run build
 npm run build --report
 ```
 
-# 后端接口
+## 后端接口
+``` bash
 端口号：9050
 接口： /ajax/***
+```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
