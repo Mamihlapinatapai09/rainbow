@@ -1,0 +1,294 @@
+/*
+系统共用部分
+*/
+@charset "utf-8";
+body {
+    color: #555555;
+    font-family: 'HanHei SC', 'PingFang SC',"Microsoft YaHei" ;
+    font-size: 14px;
+    direction: ltr;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-rendering: optimizelegibility;
+    position: relative;
+}
+body,html{
+    height: 100%;
+    width: 100%;
+}
+
+
+/* 内外边距通常让各个浏览器样式的表现位置不同 */
+body,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+textarea,
+p,
+blockquote,
+button,
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+menu,
+nav,
+i,
+select,
+section {
+    margin: 0;
+    padding: 0;
+}
+
+/* 重设 HTML5 标签, IE 需要在 js 中 createElement(TAG) */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+menu,
+nav,
+section {
+    display: block;
+}
+
+select:hover{
+    cursor:pointer;
+}
+
+/*表格外层嵌套 隐藏超出部分*/
+table {
+    border-collapse: inherit;
+    border-spacing: 0;
+    width: 100%;
+}
+
+ul,
+ol {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+/* 去除默认边框 */
+img {
+    border: 0;
+}
+
+/* 统一上标和下标 */
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+}
+
+:root sub,
+:root sup {
+    vertical-align: baseline;
+    /* for ie9 and other modern browsers */
+}
+
+sup {
+    top: -0.5em;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+/* 让链接在 hover 状态下显示下划线 */
+a {
+    text-decoration: none;
+    outline: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+/* 强制文本换行 */
+.textwrap,
+.textwrap td,
+.textwrap th {
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.textwrap-table {
+    table-layout: fixed;
+}
+textarea{
+    resize: none !important;
+}
+
+/* Responsive images */
+.a img {
+    max-width: 100%;
+}
+
+.btn {
+    border: none;
+    padding: 0px 15px;
+    line-height: 34px;
+    height: 34px;
+    outline: none;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.btn:link, .btn:visited, .btn:hover, .btn:active {
+    color: #ffffff;
+}
+
+.btn[disabled="disabled"] {
+    background: #d5d5d5!important;
+    opacity: 0.8;
+    filter: alpha(opacity = 80);
+}
+
+.btn:disabled {
+    opacity: 0.8;
+    filter: alpha(opacity = 80);
+}
+
+input[disabled="disabled"], textarea[disabled="disabled"]{
+    background: #fff;
+}
+
+input:disabled, textarea:disabled{
+    background: #fff;
+}
+
+input[readonly="readonly"]{
+    color: #777777 ;
+}
+
+
+input[type="text"], input[type="password"], input[type="tel"], input[type="number"], input[type="email"] {
+    height: 40px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #333;
+    /* border: none; */
+    border-radius: 5px;
+    outline: none;
+    vertical-align: middle;
+}
+input::-webkit-contacts-auto-fill-button {
+    visibility: hidden;
+    display: none !important;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    width:0px;
+    height:0px;
+}
+
+::-moz-placeholder{color:#C6C6C6;}
+::-webkit-input-placeholder{color:#C6C6C6;}
+:-ms-input-placeholder{color:#C6C6C6;}
+
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+    outline: none;
+}
+
+textarea {
+    resize: none;
+    outline: none;
+}
+
+.hidden {
+    display: none;
+}
+/*清除浮动*/
+.fl{
+    float:left;
+}
+.fr{
+    float:right;
+}
+.clearfix:before, .clearfix:after {
+    content: "";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+/* ...隐藏 */
+.ellipsis{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+}
+
+/*表单元素重定义*/
+select {
+    display: inline-block;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+select[disabled="disabled"], select[disabled="true"] {
+    background-color: #f1f1f1;
+    color: #999999;
+}
+
+select.fullWidth {
+    width: 100%;
+}
+
+ /*去除IE浏览器中所有搜索框的清空icon*/
+.keyword-search input[type="text"]::-ms-clear {
+     display: none;
+ }
+
+a {
+    cursor: pointer;
+    color: #555;
+}
+
+

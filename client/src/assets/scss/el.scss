@@ -1,0 +1,91 @@
+@charset "utf-8";
+@import 'baseParams';
+
+//btn 主题色
+button.el-button {
+
+    color: #ffffff;
+    background: $btnBg;
+    border-color: $btnBg;
+
+    &:hover {
+        background: darken($btnActive, 0.3);
+        border-color: darken($btnActive, 0.3);
+        color: #ffffff;
+    }
+    &:visited, &:focus, &:link {
+        background: $btnBg;
+        border-color: $btnBg;
+        color: #ffffff;
+    }
+    &:active {
+        background: darken($btnBg, 0.3);
+        border-color: darken($btnBg, 0.3);
+        color: #ffffff;
+    }
+}
+
+//input,select hover/focus主题色
+.el-input, .el-select {
+    input, textarea {
+        border-radius: 3px;
+        border: 1px solid $lineBorderColor;
+        padding-left: 10px;
+    }
+    input:hover, textarea:hover {
+        border-color: $textViceHeaderColor;
+    }
+    input:focus, textarea:focus {
+        border-color: $link;
+    }
+}
+input.el-input__inner::-webkit-input-placeholder, textarea.el-textarea__inner::-webkit-input-placeholder {
+    color: #d1d1d1;
+}
+input.el-input__inner::-moz-placeholder, textarea.el-textarea__inner::-moz-placeholder {
+    color: #d1d1d1;
+}
+input.el-input__inner:-ms-input-placeholder, textarea.el-textarea__inner:-ms-input-placeholder {
+    color: #d1d1d1;
+}
+input.el-input__inner::placeholder, textarea.el-textarea__inner::placeholder {
+    color: #d1d1d1;
+}
+
+textarea.el-textarea__inner::-webkit-input-placeholder {
+    color: #d1d1d1;
+}
+textarea.el-textarea__inner::-moz-placeholder {
+    color: #d1d1d1;
+}
+textarea.el-textarea__inner:-ms-input-placeholder {
+    color: #d1d1d1;
+}
+textarea.el-textarea__inner::placeholder {
+    color: #d1d1d1;
+}
+div.el-input.is-disabled .el-input__inner::-webkit-input-placeholder {
+    color: #c6c6c6;
+}
+div.el-input.is-disabled .el-input__inner::-moz-placeholder {
+    color: #c6c6c6;
+}
+div.el-input.is-disabled .el-input__inner:-ms-input-placeholder {
+    color: #c6c6c6;
+}
+div.el-input.is-disabled .el-input__inner::placeholder {
+    color: #c6c6c6;
+}
+
+div.el-textarea.is-disabled .el-textarea__inner::-webkit-input-placeholder {
+    color: #c6c6c6;
+}
+div.el-textarea.is-disabled .el-textarea__inner::-moz-placeholder {
+    color: #c6c6c6;
+}
+div.el-textarea.is-disabled .el-textarea__inner:-ms-input-placeholder {
+    color: #c6c6c6;
+}
+div.el-textarea.is-disabled .el-textarea__inner::placeholder {
+    color: #c6c6c6;
+}

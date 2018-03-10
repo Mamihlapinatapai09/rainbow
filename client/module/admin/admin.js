@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import store from './store/index.js'
 
 import Index from './components/index.vue'
+import Login from './components/Login.vue'
 
 // Vue.config.productionTip = false
 
@@ -16,6 +17,10 @@ const router = new VueRouter({
 		{
 			path: '/index',
 			alias: '/',
+			component:Login
+		},
+		{
+			path: '/home',
 			component:Index
 		}
 	]

@@ -24,10 +24,10 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   devServer: {
     clientLogLevel: 'warning',
     historyApiFallback: {
+      index: '/home.html',
       rewrites: [
         { from: /^\/home.*$/, to:'/home.html'},
         { from: /^\/admin.*$/, to:'/admin.html'},
-        // { from: /.*/, to: '/home.html' },
       ],
     },
     hot: true,
@@ -81,16 +81,6 @@ for (var pathname in pages) {
  };
  devWebpackConfig.plugins.push(new HtmlWebpackPlugin(conf));
 }
-
-// handle fallback for HTML5 history API
-// var history = require('connect-history-api-fallback')
-// app.use(history({
-//   index: '/home.html',
-//   rewrites: [
-//     { from: /^\/home\/.*$/, to: '/home.html'},
-//     { from: /^\/admin\/.*$/, to: '/admin.html'},
-//   ]
-// }))
 
 module.exports = new Promise((resolve, reject) => {
   portfinder.basePort = process.env.PORT || config.dev.port
