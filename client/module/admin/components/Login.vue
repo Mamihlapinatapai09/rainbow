@@ -30,7 +30,7 @@ export default{
 	methods:{
 		handleLogin(){
 			const t = this;
-			t.$router.push('/home');
+			t.$router.push('/activity');
 		}
 	}
 }

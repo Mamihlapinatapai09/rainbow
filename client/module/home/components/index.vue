@@ -1,12 +1,18 @@
 <template>
-<div>
-	<h1>{{mes}}</h1>
-	<h2>{{test}}</h2>
-	<el-button>默认按钮</el-button>
-</div>
+	<div class="container">
+		<header-component></header-component>
+		<div class="main">
+			<activity-component></activity-component>
+			<person-component></person-component>
+		</div>
+	</div>
 </template>
 <script>
 import {mapGetters} from 'vuex'
+
+import HeaderComponent from './layout/Header.vue'
+import ActivityComponent from './module/Activity.vue'
+import PersonComponent from './module/PersonCenter.vue'
 
 export default {
 	data(){
@@ -18,9 +24,30 @@ export default {
 		...mapGetters({
 			'test':'getTest'
 		})
+	},
+	components:{
+		'header-component':HeaderComponent,
+		'activity-component':ActivityComponent,
+		'person-component':PersonComponent
 	}
 }
 </script>
-<style>
-	
+<style lang="scss">
+	.main{
+		position:relative;
+		margin: 20px auto 0 auto;
+		width:1100px;
+		height:1100px;
+		overflow: hidden;
+		.activity-container{
+			position:absolute;
+			top:0;
+			left:0;
+		}
+		.person-container{
+			position:absolute;
+			top:0;
+			right:45px;
+		}
+	}
 </style>

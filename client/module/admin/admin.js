@@ -20,9 +20,41 @@ const router = new VueRouter({
 			component:Login
 		},
 		{
-			path: '/home',
-			component:Index
-		}
+			path: '/activity',
+			component:Index,
+			meta: {
+				component:'activity'
+			}
+		},
+		{
+			path: '/approve',
+			component:Index ,
+			meta: {
+				component:'approve'
+			}
+		},
+		{
+			path: '/notice',
+			component:Index,
+			meta: {
+				component:'notice'
+			}
+		},
+		{
+			path: '/team',
+			component:Index,
+			meta: {
+				component:'team'
+			}
+		},
+		{
+			path: '/volunteer',
+			component:Index,
+			meta: {
+				component:'volunteer'
+			}
+		},
+
 	]
 })
 
