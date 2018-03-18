@@ -2,8 +2,9 @@
 	<div class="container">
 		<header-component></header-component>
 		<div class="main">
-			<activity-component></activity-component>
-			<person-component></person-component>
+			<!-- <activity-component></activity-component>
+			<person-component></person-component> -->
+			<div class="aa" @click="change">{{test}}</div>
 		</div>
 	</div>
 </template>
@@ -18,6 +19,12 @@ export default {
 	data(){
 		return {
 			mes: 'this is home data'
+		}
+	},
+	methods:{
+		change(){
+			const t = this;
+			t.$store.commit('updateTest','hahahahah');
 		}
 	},
 	computed:{
