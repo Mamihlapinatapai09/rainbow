@@ -52,7 +52,7 @@ export default{
 
 	.screen-content{
 		position:relative;
-		margin: 0 auto;
+		margin: 0 auto 65px auto;
 		padding:20px;
 		width:80%;
 	}
@@ -61,11 +61,13 @@ export default{
 		position:fixed;
 		bottom:0;
 		left:0;
+		z-index:9999;
 		height:60px;
 		width:100%;
+		background:#fff;
 		text-align:center;
 		line-height:60px;
-		box-shadow:0 -2px 10px rgba(44,45,48,0.06);
+		box-shadow:0 -5px 18px rgba(44,45,48,0.06);
 		z-index:105;
 	}
 }	

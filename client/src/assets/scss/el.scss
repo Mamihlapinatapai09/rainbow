@@ -24,6 +24,14 @@ button.el-button {
         color: #ffffff;
     }
 }
+//取消按钮
+.el-button.cancel {
+    &, &:hover {
+        background: #d5d5d5 !important;
+        border-color: #d5d5d5 !important;
+        color: #999;
+    }
+}
 
 //input,select hover/focus主题色
 .el-input, .el-select {
@@ -129,4 +137,74 @@ div.el-tabs.el-tabs--card .el-tabs__item {
 }
 .el-tabs .el-tabs__nav-next, .el-tabs .el-tabs__nav-prev {
     line-height: 70px;
+}
+
+  //el-dialog弹框   增加类名class="qj-alertBox"
+  .qj-alertBox .el-dialog {
+      width: 460px;
+  }
+  div.el-dialog {
+      padding: 0 20px;
+
+      .el-dialog__header {
+          padding: 0;
+          height: 50px;
+          border-bottom: 1px solid rgb(238, 236, 236);
+          color: rgb(153, 153, 153);
+          line-height: 50px;
+          text-align: center;
+          font-weight: normal;
+          font-style: normal;
+          font-size: 16px;
+          .el-dialog__title {
+              font-weight: normal;
+              color: rgb(153, 153, 153);
+          }
+          .el-dialog__close:hover {
+              color: rgb(191, 203, 217);
+          }
+          .el-dialog__headerbtn {
+              line-height: 50px !important;
+              font-size: 16px !important;
+              top:0;
+          }
+      }
+
+      .el-dialog__footer {
+          text-align: center;
+          .dialog-footer {
+              text-align: center;
+              button {
+                  background: $btnBg;
+                  border-color: $btnBg;
+                  &:hover {
+                      background: $btnActive;
+                      border-color: $btnActive;
+                  }
+              }
+          }
+      }
+  }
+
+  div.el-dialog__wrapper.no-padding-top {
+      .el-dialog__body {
+          padding-top: 0px !important;
+      }
+  }
+  div.el-dialog__wrapper.no-padding-bottom {
+      .el-dialog__body {
+          padding-bottom: 0px !important;
+      }
+  }
+  div.el-dialog__wrapper.has-scroll {
+      .el-dialog__body {
+          padding-right: 0px !important;
+      }
+  }
+
+.el-dialog__headerbtn:focus .el-dialog__close, .el-dialog__headerbtn:hover .el-dialog__close{
+  color: $link;
+}
+div .el-dialog .el-dialog__header .el-dialog__close:hover{
+  color: $link;
 }

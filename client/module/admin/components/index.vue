@@ -21,7 +21,7 @@ import HeaderComponent from './layout/Header.vue'
 import FooterComponent from './layout/Footer.vue'
 import SidebarComponent from './layout/Sidebar.vue'
 
-import ActivityComponent from './module/activity/Index.vue'
+import ActivityComponent from './activity/Index.vue'
 import ApproveComponent from './module/Approve.vue'
 import NoticeComponent from './module/Notice.vue'
 import TeamComponent from './module/Team.vue'

@@ -19,14 +19,14 @@ npm run build --report
 ```
 ## 页面地址
 ``` bash
-主页面：http://localhost:8080/home
+主页面：http://localhost:8080
 后台管理页面：http://localhost:8080/admin
 ```
 
 ## 后端接口
 ``` bash
 端口号：9050
-接口： /ajax/***
+接口： ***/ajax-***
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

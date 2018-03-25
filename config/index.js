@@ -38,7 +38,7 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/ajax':{
+      '**/ajax**':{
         target:'http://localhost:3000'
       }
     },

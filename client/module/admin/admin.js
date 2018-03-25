@@ -6,7 +6,7 @@ import store from './store/index.js'
 
 import Index from './components/index.vue'
 import Login from './components/Login.vue'
-import AddActivity from './components/module/activity/AddActivity.vue'
+import AddActivity from './components/activity/AddList.vue'
 // Vue.config.productionTip = false
 
 Vue.use(VueRouter)

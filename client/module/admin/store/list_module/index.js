@@ -16,23 +16,23 @@ export default {
 				"name":"活动名称1",
 				"teamId":1,
 				"teamName":"团队1",
-				"startDate":"1990-12-13",
-				"endDate":"1990-12-13",
+				"startDate":1521954778746,
+				"endDate":1521954778746,
 				"maxNum":2,
 				"type":1,
 				"status":0,
-				"addtime":"1990-12-13"
+				"addtime":1521954778746
 			},
 			{
 				"id":1,
 				"name":"活动名称1",
 				"teamId":1,
-				"startDate":"1990-12-13",
-				"endDate":"1990-12-13",
+				"startDate":1521954778746,
+				"endDate":1521954778746,
 				"maxNum":2,
 				"type":1,
 				"status":0,
-				"addtime":"1990-12-13"
+				"addtime":1521954778746
 			},
 		],
 		activityId:-1,  //当前编辑活动id

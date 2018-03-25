@@ -2,9 +2,8 @@
 	<div class="container">
 		<header-component></header-component>
 		<div class="main">
-			<!-- <activity-component></activity-component>
-			<person-component></person-component> -->
-			<div class="aa" @click="change">{{test}}</div>
+			<activity-component></activity-component>
+			<person-component></person-component>
 		</div>
 	</div>
 </template>
@@ -22,10 +21,6 @@ export default {
 		}
 	},
 	methods:{
-		change(){
-			const t = this;
-			t.$store.commit('updateTest','hahahahah');
-		}
 	},
 	computed:{
 		...mapGetters({
