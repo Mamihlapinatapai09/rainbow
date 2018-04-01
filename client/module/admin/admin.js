@@ -7,7 +7,13 @@ import store from './store/index.js'
 import Index from './components/index.vue'
 import Login from './components/Login.vue'
 import AddActivity from './components/activity/AddList.vue'
-// Vue.config.productionTip = false
+
+import Team from './components/team/Index.vue'
+import Approve from './components/approve/Index.vue'
+import Notice from './components/notice/Index.vue'
+import Volunteer from './components/volunteer/Index.vue'
+
+Vue.config.productionTip = false
 
 Vue.use(VueRouter)
 
@@ -41,31 +47,19 @@ const router = new VueRouter({
 		},
 		{
 			path: '/approve',
-			component:Index ,
-			meta: {
-				component:'approve'
-			}
+			component:Approve,
 		},
 		{
 			path: '/notice',
-			component:Index,
-			meta: {
-				component:'notice'
-			}
+			component:Notice,
 		},
 		{
 			path: '/team',
-			component:Index,
-			meta: {
-				component:'team'
-			}
+			component:Team
 		},
 		{
 			path: '/volunteer',
-			component:Index,
-			meta: {
-				component:'volunteer'
-			}
+			component:Volunteer,
 		},
 
 	]

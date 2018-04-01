@@ -69,6 +69,7 @@ export default{
 		const t = this;
 		// 获取活动列表
 		t.$store.dispatch('getActivitiesData');
+
 	},
 	data(){
 		return {

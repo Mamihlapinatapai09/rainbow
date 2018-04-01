@@ -2,44 +2,35 @@
 	<div class="container">
 		<header-component></header-component>
 		<div class="main-box">
-			<sidebar-component :activeComponent="activeComponent"></sidebar-component>
+			<sidebar-component :activeLi="activeSideBar"></sidebar-component>
 			<div class="test">
-				<activity-component v-if="activeComponent === 'activity'"></activity-component>
+				<slot></slot>
 			</div>
 		</div>
 		<footer-component></footer-component>
 	</div>
 </template>
 <script>
-import vue from 'vue';
-
-import HeaderComponent from './layout/Header.vue'
-import FooterComponent from './layout/Footer.vue'
-import SidebarComponent from './layout/Sidebar.vue'
-
-import ActivityComponent from './activity/Index.vue'
+import HeaderComponent from './Header.vue';
+import FooterComponent from './Footer.vue';
+import SidebarComponent from './Sidebar.vue';
 
 export default{
-	beforeRouteEnter(to,from,next){
-		next(self => {
-			self.activeComponent = to.meta.component;
-		})
-	},
+	props:['activeSideBar'],
 	data(){
 		return {
-			activeComponent:'activity'
+			activeComponent:'team'
 		}
 	},
 	components:{
 		'header-component':HeaderComponent,
 		'footer-component':FooterComponent,
-		'sidebar-component':SidebarComponent,
-		'activity-component':ActivityComponent,
+		'sidebar-component':SidebarComponent
 	}
 }
 </script>
 <style lang="scss">
-@import '../../../src/assets/scss/baseParams.scss';
+@import '../../../../src/assets/scss/baseParams.scss';
 	.container{
 		display: flex;
 		flex-direction:column;
@@ -55,5 +46,5 @@ export default{
 				border-radius:20px;
 			}
 		}
-	}
+	}	
 </style>

@@ -12,8 +12,12 @@
 </template>
 <script>
 export default{
+	created(){
+		const t = this;
+		t.active = t.activeLi;
+	},
 	props:{
-		'activeComponent':{
+		'activeLi':{
 			type:String,
 			default: () => {
 			    return 'activity'
@@ -37,12 +41,6 @@ export default{
 			const t = this;
 			t.active = path;
 			t.$router.push(`/${path}`);
-		}
-	},
-	watch:{
-		activeComponent:function(val){
-			const t = this;
-			t.active = val;
 		}
 	}
 }	
