@@ -18,7 +18,7 @@
 						<el-table-column prop="addtime" label="成立时间"></el-table-column>
 						<el-table-column v-if="activeTabName === '1'" label="操作" align="center">
 							<template slot-scope="scope">
-								<span class="operate">编辑</span>
+								<span class="operate" @click="handlerEdit(scope)">编辑</span>
 								<span class="operate" @click="handlerDelete(scope)">删除</span>
 							</template>
 						</el-table-column>
@@ -143,8 +143,15 @@ export default{
 			t.activeTeam = scope.row;
 			t.deleteDialogVisible = true;
 		},
+		handlerEdit(scope){
+			const t = this;
+			let teamId = scope.row.id;
+			t.$router.push(`/team-list?teamId=${teamId}`);
+		},
+		// 添加团队
 		handlerAdd(){
-
+			const t = this;
+			t.$router.push('/team-list?teamId=');	
 		}
 	},
 	components:{

@@ -6,7 +6,6 @@ import store from './store/index.js'
 
 import Index from './components/index.vue'
 import Login from './components/Login.vue'
-import AddActivity from './components/activity/AddList.vue'
 
 import Team from './components/team/Index.vue'
 import Approve from './components/approve/Index.vue'
@@ -35,7 +34,7 @@ const router = new VueRouter({
 		},
 		{
 			path:'/add-activity',
-			component:AddActivity,
+			component:resolve => require(['./components/activity/AddList.vue'], resolve),
 			beforeEnter(to,from,next){
 				var activityId = store.getters.getActivityId;
                 if( activityId != -1 ){
@@ -46,16 +45,20 @@ const router = new VueRouter({
 			}
 		},
 		{
+			path: '/team',
+			component:Team
+		},
+		{
+			path: '/team-list',
+			component:resolve => require(['./components/team/List.vue'], resolve)
+		},
+		{
 			path: '/approve',
 			component:Approve,
 		},
 		{
 			path: '/notice',
 			component:Notice,
-		},
-		{
-			path: '/team',
-			component:Team
 		},
 		{
 			path: '/volunteer',

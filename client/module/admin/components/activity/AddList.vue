@@ -24,6 +24,7 @@
 					    <el-select v-model="activityForm.teamId" placeholder="请选择团队">
 					      <el-option v-for="item in teamList"
 					      	:label="item.teamName"
+					      	:key="item.teamId"
 					      	:value="item.teamId"></el-option>
 					    </el-select>
 					  </el-form-item>
