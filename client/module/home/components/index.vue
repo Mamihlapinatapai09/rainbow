@@ -1,18 +1,27 @@
 <template>
 	<div class="container">
 		<header-component></header-component>
-		<div class="main">
-			<activity-component></activity-component>
-			<person-component></person-component>
-		</div>
+		<container-component>
+			<div slot="activity"><activity-component></activity-component></div>
+			<div slot="person"><person-component></person-component></div>
+			<div slot="new"><new-component></new-component></div>
+			<div slot="team"><team-component></team-component></div>
+		</container-component>
 	</div>
 </template>
 <script>
+import Vue from 'vue'
 import {mapGetters} from 'vuex'
+import $ from 'jQuery'
 
 import HeaderComponent from './layout/Header.vue'
-import ActivityComponent from './module/Activity.vue'
-import PersonComponent from './module/PersonCenter.vue'
+import ContainerComponent from './layout/Container.vue'
+
+
+import ActivityComponent from './activity/Index.vue'
+import PersonComponent from './person/Index.vue'
+import TeamComponent from './team/Index.vue'
+import NewComponent from './new/Index.vue'
 
 export default {
 	data(){
@@ -28,28 +37,14 @@ export default {
 		})
 	},
 	components:{
+		'container-component':ContainerComponent,
 		'header-component':HeaderComponent,
 		'activity-component':ActivityComponent,
-		'person-component':PersonComponent
+		'person-component':PersonComponent,
+		'team-component':TeamComponent,
+		'new-component':NewComponent
 	}
 }
 </script>
 <style lang="scss">
-	.main{
-		position:relative;
-		margin: 20px auto 0 auto;
-		width:1100px;
-		height:1100px;
-		overflow: hidden;
-		.activity-container{
-			position:absolute;
-			top:0;
-			left:0;
-		}
-		.person-container{
-			position:absolute;
-			top:0;
-			right:45px;
-		}
-	}
 </style>

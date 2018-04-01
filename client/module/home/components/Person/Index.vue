@@ -1,5 +1,5 @@
 <template>
-	<div class="person-container">
+	<div class="person-content">
 		<div class="person-header">
 			<div class="avatar">未</div>
 		</div>
@@ -14,7 +14,7 @@
 </script>
 <style lang="scss">
 @import '../../../../src/assets/scss/baseParams.scss';
-.person-container{
+.person-content{
 	width:274px;
 	height:180px;
 	border:1px solid $MainColor;

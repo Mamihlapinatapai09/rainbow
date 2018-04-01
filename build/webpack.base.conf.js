@@ -46,12 +46,16 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
+  externals: {
+      jquery: 'window.$',
+  },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('client'),
       'assets': resolve('client/src/assets'),
+      'jquery': 'jquery'
     }
   },
   module: {
