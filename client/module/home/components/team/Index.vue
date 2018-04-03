@@ -2,16 +2,16 @@
 	<div class="team-content">
 		<p class="title">团队展示</p>
 		<ul class="img-list">
-			<li><img src="../../../../src/assets/img/01.jpg" width="200" height="186" /></li>
-			<li><img src="../../../../src/assets/img/02.jpg" width="200" height="186" /></li>
-			<li><img src="../../../../src/assets/img/03.jpg" width="200" height="186" /></li>
-			<li><img src="../../../../src/assets/img/04.jpg" width="200" height="186" /></li>
-			<li><img src="../../../../src/assets/img/05.jpg" width="200" height="186" /></li>
-			<li><img src="../../../../src/assets/img/06.jpg" width="200" height="186" /></li>
-			<li><img src="../../../../src/assets/img/01.jpg" width="200" height="186" /></li>
-			<li><img src="../../../../src/assets/img/02.jpg" width="200" height="186" /></li>
-			<li><img src="../../../../src/assets/img/03.jpg" width="200" height="186" /></li>
-			<li class="more"><img></img>查看更多</li>
+			<li class="team-item"><img src="../../../../src/assets/img/01.jpg" width="200" height="186" /></li>
+			<li class="team-item"><img src="../../../../src/assets/img/02.jpg" width="200" height="186" /></li>
+			<li class="team-item"><img src="../../../../src/assets/img/03.jpg" width="200" height="186" /></li>
+			<li class="team-item"><img src="../../../../src/assets/img/04.jpg" width="200" height="186" /></li>
+			<li class="team-item"><img src="../../../../src/assets/img/05.jpg" width="200" height="186" /></li>
+			<li class="team-item"><img src="../../../../src/assets/img/06.jpg" width="200" height="186" /></li>
+			<li class="team-item"><img src="../../../../src/assets/img/01.jpg" width="200" height="186" /></li>
+			<li class="team-item"><img src="../../../../src/assets/img/02.jpg" width="200" height="186" /></li>
+			<li class="team-item"><img src="../../../../src/assets/img/03.jpg" width="200" height="186" /></li>
+			<li class="team-item more"><img></img>查看更多</li>
 		</ul>
 	</div>
 </template>
@@ -21,11 +21,11 @@ import $ from 'jQuery'
 export default{
 	mounted(){
 		Vue.nextTick(function(){
-			$('li').mouseover(function(e) {
+			$('li.team-item').mouseover(function(e) {
 		        $(this).siblings().stop().fadeTo(500,0.4);
 		    });
 
-			$('li').mouseout(function(e) {
+			$('li.team-item').mouseout(function(e) {
 		        $(this).siblings().stop().fadeTo(500,1);
 		    });
 		})
@@ -38,23 +38,28 @@ export default{
 }
 </script>
 <style lang="scss">
+@import '../../../../src/assets/scss/baseParams.scss';
+
 .team-content{
 	display: flex;
 	.title{
+		padding: 32px 30px 0;
 		writing-mode: tb-rl;
-		text-align: center;
+		letter-spacing:8px;
+		color:$frontMainColor;
+		font-size:25px;
 	}
 	.img-list{
-		width:800px;
+		width:980px;
 		border:1px solid #ccc;
 		margin:10px auto;
 		overflow:hidden;
 		padding:10px 0 0 10px;
-		background:#009999;
+		background:$frontViceColor;
 		border-radius: 10px;
 		li{
-			width:150px;
-			height:150px;
+			width:185px;
+			height:185px;
 			float:left;
 			margin-right:10px;
 			margin-bottom:10px;
@@ -63,8 +68,9 @@ export default{
 			border-radius:10px;
 			&.more{
 				background:#fff;
-				line-height: 150px;
+				line-height: 185px;
 				text-align: center;
+				font-size:18px;
 			}
 		}
 	}

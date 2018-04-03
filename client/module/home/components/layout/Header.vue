@@ -1,13 +1,11 @@
 <template>
 	<div class="header-container">
 		<div class="header-box">
-			<div class="header-title">
-				<p class="title">共青团志愿者系统</p>
-				<div class="operation">
-					<el-button class="btn login">登陆</el-button>
-					<el-button class="btn reg">注册</el-button>
-				</div>
+			<div class="operation">
+				<span>登陆</span>
+				<span>注册</span>
 			</div>
+			<img class="header-bg" src="../../../../src/assets/img/bg.jpg" alt="">
 		</div>
 	</div>
 </template>
@@ -19,43 +17,25 @@
 .header-container{
 	width:100%;
 	.header-box{
-		border-bottom:5px solid $MainColor;
-		.header-title{
-			margin:0 auto;
-			max-width: 1100px;
-			height:85px;
-			.title{
-				float: left;;
-				height:85px;
-				line-height:85px;
-				font-size:27px;
-			}
-			.operation{
-				position: relative;
-				top:35px;
-				padding-right:30px;
-				float:right;
-				.btn{
-					width:60px;
-					height:30px;
-					line-height:30px;
-					&.login{
-						border:1px solid $btnBg;
-						color:$btnBg;
-						background:#fff;
-						&:hover{
-							color:#fff;
-							background:$btnBg;
-							box-shadow:0 5px 8px 0 rgba(0,199,179,0.3);
-						}
-					}
-					&.reg:hover{
-						box-shadow:0 5px 8px 0 rgba(0,199,179,0.3);
-					}
-				}
+		box-shadow:0 3px 6px 0 rgba(40,51,67,0.06);
+		.operation{
+			padding-right: 100px;
+			position:relative;
+			z-index: 2;
+			line-height:34px;
+			background:#707070;
+			color:#fff;
+			text-align:right;
+			span{
+				display:inline-block;
+				margin-right:10px;
 			}
 		}
-	}
-	
+		.header-bg{
+			position:relative;
+			z-index: 1;
+			margin-top:-34px;
+		}
+	}	
 }
 </style>

@@ -17,13 +17,13 @@
 .person-content{
 	width:274px;
 	height:180px;
-	border:1px solid $MainColor;
+	border:1px solid $frontViceColor;
 	border-radius:10px;
 	overflow:hidden;
 	.person-header{
 		position:relative;
 		height:70px;
-		background:$MainColor;
+		background:$frontViceColor;
 		.avatar{
 			position:absolute;
 			left:50%;
@@ -35,9 +35,9 @@
 			text-align:center;
 			background:#F5F7FA;
 			border-radius:50%;
-			color:$MainColor;
+			color:$frontMainColor;
 			font-size:24px;
-			border-bottom:1px solid $MainColor;
+			border-bottom:1px solid $frontViceColor;
 		}
 	}
 	.person-body{
@@ -55,7 +55,7 @@
 				border-right:1px solid $lineBorderColor;
 			}
 			&:hover{
-				color:$MainColor;
+				color:$frontMainColor;
 			}
 		}
 	}
