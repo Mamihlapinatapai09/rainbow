@@ -19,7 +19,7 @@ npm run build --report
 ```
 ## 页面地址
 ``` bash
-主页面：http://localhost:8888
+主页面：http://localhost:8080
 后台管理页面：http://localhost:8080/admin
 ```
 
