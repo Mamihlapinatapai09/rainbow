@@ -35,6 +35,7 @@
 			position:relative;
 			z-index: 1;
 			margin-top:-34px;
+			width:100%;
 		}
 	}	
 }
