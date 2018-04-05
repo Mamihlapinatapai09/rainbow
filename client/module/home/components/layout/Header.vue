@@ -11,21 +11,55 @@
 		<!-- 登陆弹窗 -->
 		<el-dialog title="登陆"
 			:visible.sync="loginDialogVisible">
-			<el-form ref="loginForm" :model="loginList" :rules="loginRules" label-position="left" label-width="80px">
-				<el-form-item label="手机号" prop="mobile">
+			<el-form ref="loginForm" :model="loginList" :rules="loginRules" label-position="right" label-width="80px">
+				<el-form-item label="手机号：" prop="mobile">
 					<el-input v-model="loginList.mobile" placeholder="请输入正确的手机号"></el-input>
 				</el-form-item>
-				<el-form-item label="密码" prop="password">
+				<el-form-item label="密码：" prop="password">
 					<el-input type="password" v-model="loginList.password" placeholder="请输入密码"></el-input>
 				</el-form-item>
 			</el-form>
 			<span slot="footer" class="dialog-footer">
-				<el-button @click="ajaxLogin">确 定</el-button>
-			    <el-button class="cancel" @click="handlerCancelLogin">取 消</el-button>
+				<el-button @click="ajaxLogin">登陆</el-button>
+			    <el-button class="cancel" @click="handlerCancelLogin">取消</el-button>
 			</span>
 		</el-dialog>
 
 		<!-- 注册弹窗 -->
+		<div class="reg-form">
+			<el-dialog title="注册"
+				:visible.sync="regDialogVisible">
+				<el-form ref="regForm" :model="regList" :rules="regRules" label-position="right" label-width="95px">
+					<el-form-item label="姓名：" prop="name">
+						<el-input v-model="regList.name" placeholder="用户名不超过8位字符"></el-input>
+					</el-form-item>
+					<el-form-item label="性别：" prop="sex">
+						<el-radio v-model="regList.sex" :label="0">男</el-radio>
+						<el-radio v-model="regList.sex" :label="1">女</el-radio>
+					</el-form-item>
+					<el-form-item label="手机号：" prop="mobile">
+						<el-input v-model="regList.mobile" placeholder="请输入正确的手机号"></el-input>
+					</el-form-item>
+					<el-form-item label="邮箱：" prop="email">
+						<el-input v-model="regList.email" placeholder="请输入正确的邮箱"></el-input>
+					</el-form-item>
+					<el-form-item label="身份证号：" prop="idcode">
+						<el-input v-model="regList.idcode" placeholder="请输入正确的身份证号"></el-input>
+					</el-form-item>
+					<el-form-item label="密码：" prop="pwd">
+						<el-input type="password" v-model="regList.pwd" placeholder="密码长度6~8位"></el-input>
+					</el-form-item>
+					<el-form-item label="密码确认：" prop="checkPwd">
+						<el-input type="password" v-model="regList.checkPwd" placeholder="请再次输入密码"></el-input>
+					</el-form-item>
+				</el-form>
+				<span slot="footer" class="dialog-footer">
+					<el-button @click="ajaxReg">注册</el-button>
+				    <el-button class="cancel" @click="handlerCancelReg">取 消</el-button>
+				</span>
+			</el-dialog>
+		</div>
+		
 	</div>
 </template>
 <script>
@@ -40,13 +74,22 @@ export default {
 				password:''
 			},
 			regDialogVisible:false,
+			regList:{
+				name:'',
+				sex:0,
+				mobile:'',
+				email:'',
+				idcode:'',
+				pwd:'',
+				checkPwd:''
+			}
 		}
 	},
 	methods:{
 		// --------  ajax操作 ----------
+		// 登陆
 		ajaxLogin(){
 			const t = this;
-			
 			t.$refs['loginForm'].validate(valid => {
 				if(valid){
 					t.$http({
@@ -60,12 +103,37 @@ export default {
 							return t.$refs['loginForm'].validateField('password');
 						}
 						// 用户信息session存储
+						t.loginDialogVisible = false;
 					})
 				}else{
 					return false;
 				}
 			})
-
+		},
+		// 注册
+		ajaxReg(){
+			const t = this;
+			t.$ref['regForm'].validate(valid => {
+				if(valid){
+					t.$http({
+						method:'post',
+						url:'/volunteer/ajax-add-volunteer',
+						body:t.regList
+					}).then(res => {
+						const result = res.data;
+						if(!result.status){
+							return t.$message({
+								message:result.message,
+								type:'error'
+							})
+						}
+						// 用户信息session存储
+						t.regDialogVisible = false;
+					})
+				}else{
+					return false;
+				}
+			})
 		},
 		// --------  其他操作 ----------
 		handlerLogin(){
@@ -82,12 +150,26 @@ export default {
 			const t = this
 			t.regDialogVisible = true;
 		},
+		// 取消注册
+		handlerCancelReg(){
+			const t = this;
+			t.regDialogVisible = false;
+			t.$refs['regForm'].resetFields();
+		},
 		validatePassword(rule, value, callback){
 			const t = this;
 			if(!t.ajaxLoginStatus){
 				return callback(new Error('用户名或密码错误，请重新输入'));
 			}
 			callback();
+		},
+		validateCheckPwd(rule, value, callback){
+			const t = this;
+			if (value !== '' && value !== this.regList.checkPwd) {
+	          callback(new Error('两次输入密码不一致!'));
+	        } else {
+	          callback();
+	        }
 		}
 	},
 	computed:{
@@ -102,6 +184,33 @@ export default {
 					{required:true,message:'不能为空',trigger: 'blur'},
 					{min:6,max:8,message:'长度在6~8位',trigger: 'blur'},
 					{validator:t.validatePassword,trigger: 'blur'},
+				]
+			}
+		},
+		regRules(){
+			const t = this;
+			return {
+				name:[
+					{required:true,message:'不能为空',trigger:'blur'},
+					{min:1,max:8,message:'长度在1~8位',trigger:'blur'}
+				],
+				mobile:[
+					{required:true,message:'不能为空',trigger: 'blur'},
+					{validator:Verify.validateMobile,trigger: 'blur'}
+				],
+				email:[
+					{validator:Verify.validateEmail,trigger: 'blur'}
+				],
+				idcode:[
+					{validator:Verify.validateIdCode,trigger: 'blur'}
+				],
+				pwd:[
+					{required:true,message:'不能为空',trigger:'blur'},
+					{min:6,max:8,message:'长度在1~8位',trigger:'blur'}
+				],
+				checkPwd:[
+					{required:true,message:'不能为空',trigger:'blur'},
+					{validator:t.validateCheckPwd,trigger: 'blur'}
 				]
 			}
 		}
@@ -134,6 +243,9 @@ export default {
 			margin-top:-34px;
 			width:100%;
 		}
+	}
+	.reg-form .el-dialog{
+		margin-top:2vh !important;
 	}	
 }
 </style>
