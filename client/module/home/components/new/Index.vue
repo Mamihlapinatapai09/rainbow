@@ -10,6 +10,8 @@
 				</li>
 			</ul>
 		</div>
+
+		<div class="new-footer" @click="$router.push('/new-list')">查看更多 ></div>
 	</div>
 </template>
 <script>
@@ -105,6 +107,14 @@ export default{
 					color:$frontMainColor;
 				}
 			}
+		}
+	}
+	.new-footer{
+		text-align: right;
+		cursor:pointer;
+		font-size:12px;
+		&:hover{
+			color:$frontMainColor;
 		}
 	}
 }	

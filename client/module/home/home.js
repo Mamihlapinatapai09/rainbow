@@ -15,6 +15,18 @@ const router = new VueRouter({
 			path:'/index',
 			alias:'/',
 			component:Index
+		},
+		{
+			path:'/activity-list',
+			component:resolve => require(['./components/activity/List.vue'], resolve)
+		},
+		{
+			path:'/activity-list-item',
+			component:resolve => require(['./components/activity/ListItem.vue'], resolve)
+		},
+		{
+			path:'/new-list',
+			component:resolve => require(['./components/new/List.vue'], resolve)
 		}
 	]
 })

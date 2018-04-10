@@ -9,6 +9,7 @@
 				</li>
 			</ul>
 		</div>
+		<div class="activity-footer" @click="$router.push('/activity-list')">查看更多 ></div>
 	</div>
 </template>
 <script>
@@ -105,6 +106,14 @@ export default{
 					color:$frontMainColor;
 				}
 			}
+		}
+	}
+	.activity-footer{
+		text-align: right;
+		cursor:pointer;
+		font-size:12px;
+		&:hover{
+			color:$frontMainColor;
 		}
 	}
 }

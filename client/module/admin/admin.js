@@ -7,9 +7,6 @@ import store from './store/index.js'
 import Index from './components/index.vue'
 import Login from './components/Login.vue'
 
-import Team from './components/team/Index.vue'
-import Approve from './components/approve/Index.vue'
-import Notice from './components/notice/Index.vue'
 import Volunteer from './components/volunteer/Index.vue'
 
 Vue.config.productionTip = false
@@ -46,7 +43,7 @@ const router = new VueRouter({
 		},
 		{
 			path: '/team',
-			component:Team
+			component:resolve => require(['./components/team/Index.vue'], resolve)
 		},
 		{
 			path: '/team-list',
@@ -54,11 +51,11 @@ const router = new VueRouter({
 		},
 		{
 			path: '/approve',
-			component:Approve,
+			component:resolve => require(['./components/approve/Index.vue'], resolve)
 		},
 		{
-			path: '/notice',
-			component:Notice,
+			path: '/new',
+			component:resolve => require(['./components/new/Index.vue'], resolve),
 		},
 		{
 			path: '/volunteer',

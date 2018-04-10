@@ -30,9 +30,9 @@ export default{
 			sidebarList:[
 				{name:'活动管理',path:'activity'},
 				{name:'志愿者管理',path:'volunteer'},
-				{name:'志愿者团队管理',path:'team'},
-				{name:'审批',path:'approve'},
-				{name:'公告',path:'notice'},
+				{name:'团队管理',path:'team'},
+				{name:'审批管理',path:'approve'},
+				{name:'新闻管理',path:'new'},
 			]
 		}
 	},

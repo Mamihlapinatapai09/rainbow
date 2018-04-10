@@ -208,3 +208,12 @@ div.el-tabs.el-tabs--card .el-tabs__item {
 div .el-dialog .el-dialog__header .el-dialog__close:hover{
   color: $link;
 }
+
+// 面包屑
+.el-breadcrumb{
+  padding:20px 0 ;
+  border-bottom:1px solid #eee;
+  .el-breadcrumb__inner a:hover, .el-breadcrumb__inner:hover{
+    color:$frontMainColor;
+  }
+}
