@@ -18,8 +18,8 @@
 						<el-table-column prop="addtime" label="成立时间"></el-table-column>
 						<el-table-column v-if="activeTabName === '1'" label="操作" align="center">
 							<template slot-scope="scope">
-								<span class="operate" @click="handlerEdit.stop(scope)">编辑</span>
-								<span class="operate" @click="handlerDelete.stop(scope)">删除</span>
+								<span class="operate" @click.stop="handlerEdit(scope)">编辑</span>
+								<span class="operate" @click.stop="handlerDelete(scope)">删除</span>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -31,7 +31,7 @@
 				    :page-size="6"
 				    :total="teamLen"
 				    @current-change="handlerPage"
-				    :current-page="currentPage">
+				    :current-page.sync="currentPage">
 				</el-pagination>
 			</div>
 		</container-component>
@@ -61,7 +61,7 @@
 				    :page-size="6"
 				    :total="volunteerLen"
 				    @current-change="handlerVolunteerPage"
-				    :current-page="volunteerCurrentPage">
+				    :current-page.sync="volunteerCurrentPage">
 				</el-pagination>
 			</div>
 

@@ -28,7 +28,7 @@
 				    :page-size="6"
 				    :total="volunteerLen"
 				    @current-change="handlerPage"
-				    :current-page="currentPage">
+				    :current-page.sync="currentPage">
 				</el-pagination>
 			</div>
 		</container-component>
@@ -60,7 +60,7 @@
 				    :page-size="6"
 				    :total="activityLen"
 				    @current-change="handlerActivityPage"
-				    :current-page="activityCurrentPage">
+				    :current-page.sync="activityCurrentPage">
 				</el-pagination>
 			</div>
 			<span slot="footer" class="dialog-footer">
