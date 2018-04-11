@@ -131,5 +131,8 @@ export default {
 			margin-top: 15px;
 		}
 	}
+	.el-breadcrumb{
+		border-bottom:1px solid #eee;
+	}
 }	
 </style>
