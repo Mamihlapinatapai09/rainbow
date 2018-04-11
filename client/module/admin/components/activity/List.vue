@@ -32,7 +32,7 @@
 						<el-input type="number" v-model="activityForm.maxNum"></el-input>
 					</el-form-item>
 					<el-form-item label="活动状态">
-						<el-switch :disabled="activityId === ''" v-model="activityForm.status" text-on="" text-off=""></el-switch>
+						<el-switch :disabled="activityId === undefined" v-model="activityForm.status" text-on="" text-off=""></el-switch>
 					</el-form-item>
 					<el-form-item label="活动描述">
 						<div id="editor"></div>
@@ -41,25 +41,28 @@
 			</div>
 
 			<div slot="footer">
-				<el-button @click="handleValidateList">确认</el-button>
+				<el-button @click="handlerValidateList">确认</el-button>
 				<el-button class="cancel" @click="$router.push('/activity')">取消</el-button>
 			</div>
 		</full-screen>
 	</div>
 </template>
 <script>
-import {mapGetters} from 'vuex'
 import wangEditor from 'wangeditor'
 import FullScreen from '../layout/FullScreen.vue'
 
 export default{
 	created(){
 		const t = this;
+		t.activityId = t.$route.query.activityId;
 
-		t.getEditorList();
+		//获取团队列表
+		t.ajaxGetTeam(); 
 
-		t.ajaxGetTeam();  //获取团队列表
-		
+		// 编辑获取活动信息
+		if(t.activityId !== undefined) {
+			t.ajaxGetForm();
+		}
 	},
 	mounted(){
 		const t = this;
@@ -67,6 +70,7 @@ export default{
 	},
 	data(){
 		return {
+			activityId:'',
 			activityForm:{  // 添加/删除发送数据
 				activityId:"", 
 				name:"",
@@ -85,17 +89,28 @@ export default{
 		}
 	},
 	methods:{
-		// 获取编辑列表
-		getEditorList(){
+		// -------- ajax请求 ----------
+		// 活动信息
+		ajaxGetForm(){
 			const t = this;
-			if(!(t.activityId === '')){
-				t.activitiesList.forEach(item => {
-					if(item.id === t.activityId){
-						let obj = JSON.parse(JSON.stringify(item));
-						t.activityForm = obj;
-					}
-				})
-			}
+			t.$http({
+				method:'post',
+				url:'',
+				body:{
+					activityId:t.activityId
+				}
+			}).then(res => {
+				const result = res.data;
+				if(!result.status){
+					return t.$message({
+						message:result.message,
+						type:'error'
+					})
+				}
+
+				t.activityForm = result.data;
+				t.activityForm['status'] = !!t.activityForm['status'];
+			})
 		},
 		// 获取团队列表
 		ajaxGetTeam(){
@@ -108,14 +123,40 @@ export default{
 				const result = res.body;
 				if(!result.status) {
 					return  t.$message({
-					          message: result.message,
-					          type: 'Error'
-					        });
+			          message: result.message,
+			          type: 'Error'
+			        });
 				}
 
 				t.teamList = result.data;
 			})
 		},
+		// 添加/编辑
+		ajaxUpdateForm(){
+			const t = this;
+			let url = t.activityId === undefined ? '/activity/ajax-add-activity' : '/activity/ajax-edit-activity';
+
+			t.$http({
+				method:'post',
+				url:'/activity/ajax-edit-activity',
+				body:t.activityForm
+			}).then(res => {
+				const result = res.data;
+				if(!result.status){
+					return t.$message({
+						message:result.message,
+						type:'error'
+					})
+				}
+				// 更新成功，跳回列表页
+				t.$router.push('/activity');
+				return t.$message({
+					message:result.message,
+					type:'success'
+				})
+			})
+		},
+		// -------- 其他操作 ----------
 		//初始化富文本编辑器
 		createEditor(){
 			const t = this;
@@ -123,47 +164,29 @@ export default{
 			t.editor.customConfig.uploadImgShowBase64 = true; //图片base64编码
 			t.editor.create();
 		},
+		// 数据处理
+		handlerpostData(){
+			const t = this;
+			let postData = JSON.parse(JSON.stringify(t.activityForm));
+
+			//处理数据
+			postData.endDate = new Date(postData.endDate).getTime();
+			postData.startDate = new Date(postData.startDate).getTime();
+			postData.status = postData.status ? 0 : 1;
+			postData.note = t.editor.txt.html();
+
+			return postData;
+		},
 		// 添加/编辑
-		handleValidateList(){
+		handlerValidateList(){
 			const t = this;
 			t.$refs['activityForm'].validate(valid => {
 				if(valid){
-					let postData = JSON.parse(JSON.stringify(t.activityForm));
-
-					//处理数据
-					postData.endDate = new Date(postData.endDate).getTime();
-					postData.startDate = new Date(postData.startDate).getTime();
-					postData.status = postData.status ? 0 : 1;
-					postData.note = t.editor.txt.html()
-
-					t.ajaxList(postData);
+					let postData = t.handlerpostData();
+					// 数据发送
+					t.ajaxUpdateForm(postData);
 				}else{
 					 return false;
-				}
-			})
-		},
-		ajaxList(){
-			const t = this;
-
-			let url = t.activityId === ''?'/activity/ajax-add-activity' :'activity/ajax-edit-activity';
-
-			t.$http({
-				method:'post',
-				url:url,
-				body:postData
-			}).then(res => {
-				const result = res.body;
-				if(!result.status){
-					return t.$message({
-					          message: result.message,
-					          type: 'Error'
-					        });
-				}else{
-					t.$message({
-			          message: result.message,
-			          type: 'success'
-			        });
-					t.$router.push('/activity');
 				}
 			})
 		},
@@ -180,10 +203,6 @@ export default{
 		}
 	},
 	computed:{
-		...mapGetters({
-			'activitiesList':'getActivitiesList',
-			'activityId':'getActivityId'
-		}),
 		activityRules(){
 			const t = this;
 			return {

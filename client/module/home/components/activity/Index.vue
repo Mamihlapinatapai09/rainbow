@@ -3,7 +3,9 @@
 		<p class="title"><span class="line line-left"></span><span class="text">志愿活动</span><span class="line line-right"></span></p>
 		<div class="activity-list">
 			<ul class="activity-ul">
-				<li class="activity-item" v-for="item in activityList">
+				<li class="activity-item" 
+					v-for="item in activityList"
+					@click="$router.push('/activity-list-item?activityId='+item.id)">
 					<span class="time">{{item.time}}</span>
 					<span class="name">{{item.name}}</span>
 				</li>

@@ -4,8 +4,8 @@
 			<div class="avatar">未</div>
 		</div>
 		<div class="person-body">
-			<span class="first">我的活动<br>（0）</span>
-			<span>我的团队<br>（0）</span>
+			<span class="first" @click="$router.push('/person-list?type=0')">我的活动<br>（0）</span>
+			<span @click="$router.push('/person-list?type=1')">我的团队<br>（0）</span>
 		</div>
 	</div>
 </template>

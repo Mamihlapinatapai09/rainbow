@@ -31,15 +31,7 @@ const router = new VueRouter({
 		},
 		{
 			path:'/add-activity',
-			component:resolve => require(['./components/activity/AddList.vue'], resolve),
-			beforeEnter(to,from,next){
-				var activityId = store.getters.getActivityId;
-                if( activityId != -1 ){
-                    next()
-                }else{
-                    router.push({path: '/activity'})
-                }
-			}
+			component:resolve => require(['./components/activity/List.vue'], resolve)
 		},
 		{
 			path: '/team',

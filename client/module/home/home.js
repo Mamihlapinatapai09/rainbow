@@ -27,6 +27,10 @@ const router = new VueRouter({
 		{
 			path:'/new-list',
 			component:resolve => require(['./components/new/List.vue'], resolve)
+		},
+		{
+			path:'/person-list',
+			component:resolve => require(['./components/person/List.vue'], resolve)
 		}
 	]
 })
