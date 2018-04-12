@@ -1,7 +1,7 @@
 <template>
-	<div class="team-container" style="height:100%">
+	<div class="back-container team-container" style="height:100%">
 		<container-component :activeSideBar="activeSideBar">
-			<div class="team-content">
+			<div class="back-content team-content">
 				<el-button class="add-btn" @click="handlerAdd">+团队</el-button>
 	
 				<!-- tabs切换 -->
@@ -236,38 +236,4 @@ export default{
 </script>
 <style lang="scss">
 @import '../../../../src/assets/scss/baseParams.scss';
-.team-container{
-	height:100%;
-	.team-content{
-		padding:20px;
-		position:relative;
-		height:82%;
-		.add-btn{
-			position:absolute;
-			right: 20px;
-			top:13px;
-			z-index: 1004;
-			&.el-button {
-				padding:10px 16px;
-			}
-		}
-
-		.table-box{
-			height:83%;
-			cursor: pointer;
-			.operate{
-				padding:10px;
-				&:hover{
-					color:$btnActive;
-				}
-			}
-		}
-	}
-
-	.el-pagination{
-		text-align: right;
-		margin-top: 15px;
-	}
-}
-
 </style>

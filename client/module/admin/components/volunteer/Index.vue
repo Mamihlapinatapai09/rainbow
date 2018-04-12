@@ -1,7 +1,7 @@
 <template>
-	<div class="volunteer-container" style="height:100%">
+	<div class="back-container volunteer-container" style="height:100%">
 		<container-component :activeSideBar="activeSideBar">
-			<div class="volunteer-content">
+			<div class="back-content volunteer-content">
 				<!-- tabs切换 -->
 				<el-tabs v-model="activeTabName" @click="handlerTab">
 					<el-tab-pane label="已注册" name="1"></el-tab-pane>
@@ -225,27 +225,4 @@ export default{
 </script>
 <style lang="scss">
 @import '../../../../src/assets/scss/baseParams.scss';
-.volunteer-container{
-	height:100%;
-	.volunteer-content{
-		padding:20px;
-		height:82%;
-
-		.table-box{
-			height:83%;
-			cursor: pointer;
-			.operate{
-				padding:10px;
-				&:hover{
-					color:$btnActive;
-				}
-			}
-		}
-	}
-	.el-pagination{
-		text-align: right;
-		margin-top: 15px;
-	}
-
-}
 </style>

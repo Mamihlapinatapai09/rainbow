@@ -1,7 +1,7 @@
 <template>
-	<div class="approve-container" style="height:100%">
+	<div class="back-container approve-container" style="height:100%">
 		<container-component :activeSideBar="activeSideBar">
-			<div class="approve-content">
+			<div class="back-content approve-content">
 				<!-- tabs切换 -->
 				<el-tabs v-model="activeTabName" @tab-click="handlerTab">
 					<el-tab-pane label="活动审批" name="0"></el-tab-pane>
@@ -155,28 +155,4 @@ export default{
 </script>
 <style lang="scss">
 @import '../../../../src/assets/scss/baseParams.scss';
-.approve-container{
-	height:100%;
-	.approve-content{
-		padding:20px;
-		position:relative;
-		height:82%;
-
-		.table-box{
-			height:83%;
-			cursor: pointer;
-			.operate{
-				padding:10px;
-				&:hover{
-					color:$btnActive;
-				}
-			}
-		}
-	}
-
-	.el-pagination{
-		text-align: right;
-		margin-top: 15px;
-	}
-}
 </style>

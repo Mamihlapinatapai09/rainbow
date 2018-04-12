@@ -6,8 +6,7 @@ import store from './store/index.js'
 
 import Index from './components/index.vue'
 import Login from './components/Login.vue'
-
-import Volunteer from './components/volunteer/Index.vue'
+import 'assets/scss/backStyle.scss'
 
 Vue.config.productionTip = false
 
@@ -51,7 +50,7 @@ const router = new VueRouter({
 		},
 		{
 			path: '/volunteer',
-			component:Volunteer,
+			component:resolve => require(['./components/volunteer/Index.vue'], resolve),
 		},
 
 	]

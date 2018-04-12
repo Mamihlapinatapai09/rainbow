@@ -1,6 +1,6 @@
 <template>
-	<div class="activity-container">
-		<div class="activity-content">
+	<div class="back-conatiner activity-container">
+		<div class="back-content activity-content">
 			<el-button class="add-btn" @click="$router.push('/add-activity')">+活动</el-button>
 			<!-- tabs切换 -->
 			<el-tabs v-model="activeTabName" @tab-click="handlerTab">
@@ -229,37 +229,5 @@ export default{
 </script>
 <style lang="scss">
 @import '../../../../src/assets/scss/baseParams.scss';
-.activity-container{
-	padding:20px;
-	height:100%;
-	.activity-content{
-		position:relative;
-		height:82%;
-		.add-btn{
-			position:absolute;
-			right: 1px;
-			top:-7px;
-			z-index: 1004;
-			&.el-button {
-				padding:10px 16px;
-			}
-		}
-	}
-
-	.el-table {
-		th.is-leaf{
-			color:$textMainHeaderColor;
-			font-weight: normal !important;
-		}
-		.operate {
-			padding:6px 8px;
-		}
-	}
-
-	.el-pagination{
-		text-align: right;
-		margin-top: 15px;
-	}
-}
 
 </style>
