@@ -1,6 +1,6 @@
 <template>
 	<div class="list-box">
-		<full-screen :title="teamId === '' ? '添加团队' : '编辑团队'">
+		<full-screen :title="!teamId ? '添加团队' : '编辑团队'">
 			<div slot="content">
 				<el-form :model="teamTemplate" :rules="teamRules" label-position="left" label-width="120px" ref="teamList">
 					<el-form-item label="团队名称" prop="name">
@@ -45,7 +45,7 @@ export default{
 		const t = this;
 		t.teamId = t.$route.query.teamId;
 
-		if(t.teamId !== ''){
+		if(t.teamId !== undefined){
 			t.ajaxGetTeam();
 		}
 
@@ -63,7 +63,7 @@ export default{
 				teamId:'',
 				leaderId:'',
 				name:'',
-				image:'',
+				pic:'',
 				note:''
 			},
 			volunteersList:[],
@@ -79,8 +79,8 @@ export default{
 			t.$http({
 				method:'post',
 				url:'/team/ajax-get-team',
-				body:{
-					teamId:t.teamId
+				data:{
+					id:t.teamId
 				}
 			}).then(res => {
 				const result = res.data;
@@ -117,7 +117,7 @@ export default{
 			t.$http({
 				method:'post',
 				url:url,
-				body:t.teamTemplate
+				data:t.teamTemplate
 			}).then(res => {
 				const result = res.data;
 				if(!result.status){
@@ -143,7 +143,7 @@ export default{
 				if(valid){
 					t.teamTemplate['note'] = t.editor.txt.html();
 
-					let url= t.teamId === '' ? '/team/ajax-add-team' : '/team/ajax-update-team';
+					let url= !t.teamId ? '/team/ajax-add-team' : '/team/ajax-update-team';
 
 					t.ajaxUpdateTeam(url);
 				}else{

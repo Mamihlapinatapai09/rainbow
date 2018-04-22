@@ -11,7 +11,7 @@
 			<li class="team-item"><img src="../../../../src/assets/img/01.jpg" width="200" height="186" /></li>
 			<li class="team-item"><img src="../../../../src/assets/img/02.jpg" width="200" height="186" /></li>
 			<li class="team-item"><img src="../../../../src/assets/img/03.jpg" width="200" height="186" /></li>
-			<li class="team-item more"><img></img>查看更多</li>
+			<li class="team-item more" @click="$router.push('/team-list')"><img></img>查看更多</li>
 		</ul>
 	</div>
 </template>

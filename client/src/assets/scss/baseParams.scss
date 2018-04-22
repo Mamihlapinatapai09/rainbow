@@ -1,21 +1,21 @@
+// ------------- 后台色调 ---------------
 $MainColor:#009999;  //主色调
 $ViceColor:#66cccc;  //副色调
 $LeastColor:#CCFFFF;  //次色调
+$btnBg: #26a69a;
+$btnActive:lighten($btnBg,3%);
+$link: #009999;
 
 
+// -------------- 前台色调 ---------------
+$frontMainColor:#DB261F; // 前台主色
+$frontViceColor:#ebc9bf; // 前台副色调
+$fontBtnBg:#f94a44;
+$frontBtnActive:lighten($fontBtnBg,3%);
+
+// -------------- 文本颜色 ---------------
 $textMainHeaderColor: #2c2d30;  //主标题
 $textViceHeaderColor: #9e9ea6;   //副标题
 $textMainColor: #555459; //主文本
 $textViceColor: #717274; //副文本
 $lineBorderColor: #e0e0e0; //边框线
-
-$btnBg: #26a69a;
-$btnActive:lighten($btnBg,3%);
-
-$link: #009999;
-
-
-
-// 前台主色
-$frontMainColor:#DB261F;
-$frontViceColor:#ebc9bf

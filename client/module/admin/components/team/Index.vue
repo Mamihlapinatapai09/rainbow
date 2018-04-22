@@ -1,22 +1,22 @@
 <template>
 	<div class="back-container team-container" style="height:100%">
 		<container-component :activeSideBar="activeSideBar">
-			<div class="back-content team-content">
-				<el-button class="add-btn" @click="handlerAdd">+团队</el-button>
+			<div class="back-content">
+				<el-button class="add-btn" @click="$router.push('/team-list')">+团队</el-button>
 	
 				<!-- tabs切换 -->
-				<el-tabs v-model="activeTabName" @click="handlerTab">
-					<el-tab-pane label="已添加" name="1"></el-tab-pane>
-					<el-tab-pane label="已删除" name="0"></el-tab-pane>
+				<el-tabs v-model="activeTabName" @tab-click="handlerTab">
+					<el-tab-pane label="已添加" name="0"></el-tab-pane>
+					<el-tab-pane label="已删除" name="1"></el-tab-pane>
 				</el-tabs>
 
 				<!-- table列表 -->
 				<div class="table-box">
 					<el-table :data="teamList" @row-click="handlerVolunteer">
 						<el-table-column prop="name" label="团队名称"></el-table-column>
-						<el-table-column prop="leader" label="团队leader"></el-table-column>
+						<el-table-column prop="leaderName" label="团队leader"></el-table-column>
 						<el-table-column prop="addtime" label="成立时间"></el-table-column>
-						<el-table-column v-if="activeTabName === '1'" label="操作" align="center">
+						<el-table-column v-if="activeTabName === '0'" label="操作" align="center">
 							<template slot-scope="scope">
 								<span class="operate" @click.stop="handlerEdit(scope)">编辑</span>
 								<span class="operate" @click.stop="handlerDelete(scope)">删除</span>
@@ -80,7 +80,7 @@ export default{
 	},
 	data(){
 		return{
-			activeTabName:"1",
+			activeTabName:"0",
 			activeSideBar:"team",
 			deleteDialogVisible:false,
 			teamLen:10,
@@ -88,17 +88,17 @@ export default{
 			pageParam:{
 				page:1,
 				num:6,
-				type:1  // 0 已删除 1已添加
+				status:0  // 1 已删除 0已添加
 			},
 			activeTeam:{},
 			teamList:[
 				{
 					"id":0,
 					"name":"蓝天志愿者团队", //团队名称
-					"leader":"张三", //团队leader
+					"leaderName":"张三", //团队leader
 					"addtime":"1522476502772", //团队成立时间
-					"images":"",  //团队照片
-					"status":1    // 0 已删除 1已添加
+					"pic":"",  //团队照片
+					"status":0    // 1 已删除 0已添加
 				}
 			],
 			//---------- 志愿者列表 ------
@@ -108,7 +108,7 @@ export default{
 			volunteerPageParam:{
 				page:1,
 				num:4,
-				teamId:''
+				id:''
 			},
 			volunteerList:[{
 			    "id": 0,
@@ -126,13 +126,13 @@ export default{
 		// 获取团队列表
 		ajaxGetTeam(){
 			const t = this;
-
+			console.log('111')
 			t.$http({
 				method:'post',
-				url:'/team/ajax-get-all-team',
-				body:t.pageParam
+				url:'/team/ajax-get-team-page-list',
+				data:t.pageParam
 			}).then(res => {
-				const result = res.body;
+				const result = res.data;
 				if(!result.status){
 					return t.$message({
 						message:result.message,
@@ -141,17 +141,17 @@ export default{
 				}
 				//数据保存
 				t.teamLen=result.data.num*result.data.maxPage;
-				t.teamList=result.data.teams;
+				t.teamList=result.data.list;
 			})
 		},
 		// 删除志愿者团队
 		ajaxDelete(){
 			const t = this;
-			t.activeTeam['status']=0;
+			t.activeTeam['status']=1;
 			t.$http({
 				method:'post',
 				url:'/team/ajax-update-team',
-				body:t.activeTeam
+				data:t.activeTeam
 			}).then(res => {
 				const result = res.data;
 				if(!result.status){
@@ -159,20 +159,20 @@ export default{
 						message:result.message,
 						type:'error'
 					})
-
-					t.ajaxGetTeam();
-					t.deleteDialogVisible = false;
 				}
+
+				t.deleteDialogVisible = false;
+				t.ajaxGetTeam();
 			})
 		},
 		// 获取志愿者列表
 		ajaxGetVolunteer(){
 			const t = this;
-			t.volunteerPageParam['teamId'] = t.activeTeam['id'];
+			t.volunteerPageParam['id'] = t.activeTeam['id'];
 			t.$http({
 				method:'post',
 				url:'/team/ajax-get-team-volunteers',
-				body:t.volunteerPageParam
+				data:t.volunteerPageParam
 			}).then(res => {
 				const result = res.data;
 				if(!result.status){
@@ -181,6 +181,7 @@ export default{
 						type:'error'
 					})
 				}
+				t.volunteerLen = result.data.num * result.data.maxPage;
 				t.volunteerList = result.data.list;
 			})
 		},
@@ -195,7 +196,7 @@ export default{
 		handlerTab(){
 			const t = this;
 			t.currentPage = 1;
-			t.pageParam['type'] = Number(t.activeTabName);
+			t.pageParam['status'] = Number(t.activeTabName);
 			t.pageParam['page'] = 1;
 			t.ajaxGetTeam();
 		},
@@ -209,11 +210,6 @@ export default{
 			const t = this;
 			let teamId = scope.row.id;
 			t.$router.push(`/team-list?teamId=${teamId}`);
-		},
-		// 添加团队
-		handlerAdd(){
-			const t = this;
-			t.$router.push('/team-list?teamId=');	
 		},
 		// 志愿者
 		handlerVolunteer(row, event, column){

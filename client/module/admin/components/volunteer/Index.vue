@@ -1,7 +1,7 @@
 <template>
 	<div class="back-container volunteer-container" style="height:100%">
 		<container-component :activeSideBar="activeSideBar">
-			<div class="back-content volunteer-content">
+			<div class="back-content">
 				<!-- tabs切换 -->
 				<el-tabs v-model="activeTabName" @click="handlerTab">
 					<el-tab-pane label="已注册" name="1"></el-tab-pane>
@@ -74,6 +74,7 @@ import ContainerComponent from '../layout/Container.vue';
 export default{
 	created(){
 		const t = this;
+		t.ajaxGetVolunteer();
 	},
 	data(){
 		return{
@@ -130,7 +131,7 @@ export default{
 			t.$http({
 				method:'post',
 				url:'/volunteer/ajax-get-all-volunteers',
-				body:t.pageParam
+				data:t.pageParam
 			}).then(res => {
 				const result = res.data;
 				if(!result.status){

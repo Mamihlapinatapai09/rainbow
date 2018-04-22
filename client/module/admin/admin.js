@@ -4,8 +4,6 @@ import commonConfig from 'assets/js/commonConfig.js'
 import VueRouter from 'vue-router'
 import store from './store/index.js'
 
-import Index from './components/index.vue'
-import Login from './components/Login.vue'
 import 'assets/scss/backStyle.scss'
 
 Vue.config.productionTip = false
@@ -19,14 +17,11 @@ const router = new VueRouter({
 		{
 			path: '/index',
 			alias: '/',
-			component:Login
+			component:resolve => require(['./components/Login.vue'], resolve)
 		},
 		{
 			path: '/activity',
-			component:Index,
-			meta: {
-				component:'activity'
-			}
+			component:resolve => require(['./components/activity/Index.vue'], resolve)
 		},
 		{
 			path:'/add-activity',
@@ -52,9 +47,10 @@ const router = new VueRouter({
 			path: '/volunteer',
 			component:resolve => require(['./components/volunteer/Index.vue'], resolve),
 		},
-
 	]
 })
+
+commonConfig(store,router)
 
 new Vue({
 	router:router,

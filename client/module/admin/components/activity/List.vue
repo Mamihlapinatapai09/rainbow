@@ -1,6 +1,6 @@
 <template>
 	<div class="add-form-box">
-		<full-screen :title="activityId===''?'新增活动':'编辑活动'">
+		<full-screen :title="activityId===undefined?'新增活动':'编辑活动'">
 			<div slot="content">
 				<el-form :model="activityForm" :rules="activityRules" label-position="left" label-width="120px" ref="activityForm">
 					<el-form-item label="活动名称" prop="name">
@@ -23,9 +23,9 @@
 					<el-form-item label="活动承办团队" prop="teamId">
 					    <el-select v-model="activityForm.teamId" placeholder="请选择团队">
 					      <el-option v-for="item in teamList"
-					      	:label="item.teamName"
-					      	:key="item.teamId"
-					      	:value="item.teamId"></el-option>
+					      	:label="item.name"
+					      	:key="item.id"
+					      	:value="item.id"></el-option>
 					    </el-select>
 					  </el-form-item>
 					<el-form-item label="招募人数" prop="maxNum">
@@ -79,12 +79,12 @@ export default{
 				note:"",
 				teamId:"",
 				maxNum:"",
-				status:true    //正常开始 0  结束 1  删除 2
+				status:true    // 1删除 0进行 2结束
 			},
 			editor:'',
 			teamList:[
-				{teamId:'0',teamName:'wang'},
-				{teamId:'1',teamName:'li'}
+				{id:'0',name:'wang'},
+				{id:'1',name:'li'}
 			],
 		}
 	},
@@ -95,9 +95,9 @@ export default{
 			const t = this;
 			t.$http({
 				method:'post',
-				url:'',
-				body:{
-					activityId:t.activityId
+				url:'/activity/ajax-get-activity',
+				data:{
+					id:t.activityId
 				}
 			}).then(res => {
 				const result = res.data;
@@ -109,7 +109,10 @@ export default{
 				}
 
 				t.activityForm = result.data;
-				t.activityForm['status'] = !!t.activityForm['status'];
+				t.activityForm['startDate'] = new Date(t.activityForm['startDate']);
+				t.activityForm['endDate'] = new Date(t.activityForm['endDate']);
+
+				t.activityForm['status'] = !t.activityForm['status'];
 			})
 		},
 		// 获取团队列表
@@ -118,9 +121,9 @@ export default{
 
 			t.$http({
 				method:'post',
-				url:'/team/ajax-get-team-page-list'
+				url:'/team/ajax-get-team-id-name-list'
 			}).then(res => {
-				const result = res.body;
+				const result = res.data;
 				if(!result.status) {
 					return  t.$message({
 			          message: result.message,
@@ -132,14 +135,14 @@ export default{
 			})
 		},
 		// 添加/编辑
-		ajaxUpdateForm(){
+		ajaxUpdateForm(postData){
 			const t = this;
 			let url = t.activityId === undefined ? '/activity/ajax-add-activity' : '/activity/ajax-edit-activity';
 
 			t.$http({
 				method:'post',
-				url:'/activity/ajax-edit-activity',
-				body:t.activityForm
+				url:url,
+				data:postData
 			}).then(res => {
 				const result = res.data;
 				if(!result.status){
@@ -174,7 +177,6 @@ export default{
 			postData.startDate = new Date(postData.startDate).getTime();
 			postData.status = postData.status ? 0 : 1;
 			postData.note = t.editor.txt.html();
-
 			return postData;
 		},
 		// 添加/编辑

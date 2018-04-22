@@ -75,9 +75,11 @@ export default {
 			})
 		},
 		// -------- 其他操作 -----------
-		handlerPage(){
+		// 换页
+		handlerPage(page){
 			const t = this;
-
+			t.pageParam['page'] = page;
+			t.ajaxGetList();
 		}
 	},
 	components:{

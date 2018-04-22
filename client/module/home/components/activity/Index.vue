@@ -16,24 +16,51 @@
 </template>
 <script>
 export default{
+	created(){
+		const t = this;
+		t.ajaxGetList();
+	},
 	data(){
 		return {
 			activityList:[
-				{name:'活动1活动1活动1活动1活动1活动1活动1活动1活动1活动1活动1活动1活动1活动1活动1活动1',time:'10-02'},
-				{name:'活动2活动2活动2活动2活动2活动2',time:'10-02'},
-				{name:'活动3活动3活动3',time:'10-02'},
-				{name:'活动4活动3活动3活动3活动3',time:'10-02'},
-				{name:'活动5活动3活动3活动3活动3活动3活动3',time:'10-02'},
-				{name:'活动6活动3活动3活动3活动3',time:'10-02'},
-				{name:'活动7',time:'10-02'},
-				{name:'活动8活动3活动3',time:'10-02'},
-				{name:'活动9活动3',time:'10-02'},
-				{name:'活动10活动3活动3',time:'10-02'},
-				{name:'活动7活动3活动3活动3活动3',time:'10-02'},
-				{name:'活动8活动3',time:'10-02'},
-				{name:'活动9活动3活动3活动3',time:'10-02'},
-				{name:'活动10活动3',time:'10-02'},
+				{id:'123',name:'活动1活动1活动1活动1活动1活动1活动1活动1活动1活动1活动1活动1活动1活动1活动1活动1',time:'10-02'},
+				{id:'123',name:'活动2活动2活动2活动2活动2活动2',time:'10-02'},
+				{id:'123',name:'活动3活动3活动3',time:'10-02'},
+				{id:'123',name:'活动4活动3活动3活动3活动3',time:'10-02'},
+				{id:'123',name:'活动5活动3活动3活动3活动3活动3活动3',time:'10-02'},
+				{id:'123',name:'活动6活动3活动3活动3活动3',time:'10-02'},
+				{id:'123',name:'活动7',time:'10-02'},
+				{id:'123',name:'活动8活动3活动3',time:'10-02'},
+				{id:'123',name:'活动9活动3',time:'10-02'},
+				{id:'123',name:'活动10活动3活动3',time:'10-02'},
+				{id:'123',name:'活动7活动3活动3活动3活动3',time:'10-02'},
 			]
+		}
+	},
+	methods:{
+		// ------- ajax请求 ---------
+		// 数据列表获取
+		ajaxGetList(){
+			const t = this;
+			t.$http({
+				method:'post',
+				url:'/activity/ajax-get-activity-list-by-type',
+				body:{
+					page:1,
+					num:14,
+					type:0
+				}
+			}).then(res => {
+				const result = res.data;
+				if(!result.status){
+					return t.$message({
+						message:result.message,
+						type:'error'
+					})
+				}
+
+				t.activityList = result.data.list;
+			})
 		}
 	}
 }	
@@ -42,6 +69,7 @@ export default{
 @import '../../../../src/assets/scss/baseParams.scss';
 .activity-content{
 	width:700px;
+	height:286px;
 	overflow:hidden;
 	.title {
 		display:flex;
@@ -67,6 +95,8 @@ export default{
 		}
 	}
 	.activity-ul{
+		overflow:hidden;
+		height:210px;
 		.activity-item{
 			box-sizing:border-box;
 			padding-right:8px;

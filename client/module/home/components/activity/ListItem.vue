@@ -5,19 +5,19 @@
 			<el-breadcrumb separator-class="el-icon-arrow-right">
 			  <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
 			  <el-breadcrumb-item :to="{ path: '/activity-list' }">志愿活动</el-breadcrumb-item>
-			  <el-breadcrumb-item>{{activityData.name}}</el-breadcrumb-item>
+			  <el-breadcrumb-item>{{activityItem.name}}</el-breadcrumb-item>
 			</el-breadcrumb>
 
-			<div class="title">{{activityData.name}}</div>
+			<div class="title">{{activityItem.name}}</div>
 			<div class="other">
-				<span>承办团队：{{activityData.team}}</span>
-				<span>招募人数：{{activityData.num}}人</span>
+				<span>承办团队：{{activityItem.team}}</span>
+				<span>招募人数：{{activityItem.num}}人</span>
 			</div>
 			<div class="time">
-				<span>开始时间：{{activityData.startTime}}</span>
-				<span>结束时间：{{activityData.endTime}}</span>
+				<span>开始时间：{{activityItem.startTime}}</span>
+				<span>结束时间：{{activityItem.endTime}}</span>
 			</div>
-			<div class="desc" v-html="activityData.description"></div>
+			<div class="desc" v-html="activityItem.description"></div>
 			<div class="join">
 				<el-button @click="joinDialogVisible = true">参与活动</el-button>
 			</div>
@@ -46,11 +46,12 @@ export default{
 	created(){
 		const t = this;
 		t.activityId = t.$route.query.activityId;
+		t.ajaxGetItem();
 	},
 	data(){
 		return {
 			activityId:'',
-			activityData:{
+			activityItem:{
 				"id":0,
 				"name":"爱心敬老院活动", // 活动名称
 				"startTime":"2017-12-10", // 开始时间
@@ -65,9 +66,49 @@ export default{
 	},
 	methods:{
 		// --------- ajax请求 ---------
+		// 获取单个活动信息
+		ajaxGetItem(){
+			const t = this;
+			t.$http({
+				method:'post',
+				url:'/',
+				body:{
+					activityId:t.activityId
+				}
+			}).then(res => {
+				const result = res.data;
+				if(!result.data){
+					return t.$message({
+						message:result.message,
+						type:'error'
+					})
+				}
+				t.activityItem = result.data;
+			})
+		},
 		// 参与活动
 		ajaxJoin(){
 			const t = this;
+			t.$http({
+				method:'post',
+				url:'/',
+				body:{
+					activityId:t.activityId,
+					volunteerId:t.activityItem.id
+				}
+			}).then(res => {
+				const t = this;
+				if(!result.status){
+					return t.$message({
+						message:result.message,
+						type:'error'
+					})
+				}
+				t.$message({
+					message:result.message,
+					type:'success'
+				})
+			})
 		},
 		//--------- 页面操作 ----------
 	},

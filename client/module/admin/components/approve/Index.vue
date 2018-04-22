@@ -1,7 +1,7 @@
 <template>
 	<div class="back-container approve-container" style="height:100%">
 		<container-component :activeSideBar="activeSideBar">
-			<div class="back-content approve-content">
+			<div class="back-content">
 				<!-- tabs切换 -->
 				<el-tabs v-model="activeTabName" @tab-click="handlerTab">
 					<el-tab-pane label="活动审批" name="0"></el-tab-pane>

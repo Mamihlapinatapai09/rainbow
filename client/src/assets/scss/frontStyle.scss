@@ -2,28 +2,28 @@
 @import 'baseParams';
 
 // --------------  element-ui 样式覆盖 -------------
- 
 // el-button 按钮
-.el-button{
-	color: #ffffff;
-	background: $btnBg;
-	border-color: $btnBg;
+button.el-button {
 
-	&:hover {
-	    background: darken($btnActive, 0.3);
-	    border-color: darken($btnActive, 0.3);
-	    color: #ffffff;
-	}
-	&:visited, &:focus, &:link {
-	    background: $btnBg;
-	    border-color: $btnBg;
-	    color: #ffffff;
-	}
-	&:active {
-	    background: darken($btnBg, 0.3);
-	    border-color: darken($btnBg, 0.3);
-	    color: #ffffff;
-	}
+    color: #ffffff;
+    background: $fontBtnBg;
+    border-color: $fontBtnBg;
+
+    &:hover {
+        background: darken($frontBtnActive, 0.3);
+        border-color: darken($frontBtnActive, 0.3);
+        color: #ffffff;
+    }
+    &:visited, &:focus, &:link {
+        background: $fontBtnBg;
+        border-color: $fontBtnBg;
+        color: #ffffff;
+    }
+    &:active {
+        background: darken($fontBtnBg, 0.3);
+        border-color: darken($fontBtnBg, 0.3);
+        color: #ffffff;
+    }
 }
 //取消按钮
 .el-button.cancel {
@@ -34,36 +34,48 @@
     }
 }
 
-// el-switch 开关
-.el-switch.is-checked .el-switch__core{
-	background: $btnBg;
-}
 
 // el-pagination 翻页
 .el-pager li.active{
-	color: $btnBg;
+	color: $fontBtnBg;
+}
+.el-pager li:hover{
+	color: $fontBtnBg;
+}
+.el-pagination button:hover{
+  color: $fontBtnBg;
 }
 
 // el-tabs 表头
 .el-tabs__item.is-active{
-	color: $btnBg;
+	color: $fontBtnBg;
 }
 .el-tabs__item:hover{
-	color: $btnBg;
+	color: $fontBtnBg;
 }
 .el-tabs__active-bar{
-	background-color: $btnBg;
+	background-color: $fontBtnBg;
 }
 
-// el-select 选择框
-.el-select .el-input.is-focus .el-input__inner{
-	border-color: $btnBg;
+
+// el-radio 单选
+.el-radio__input.is-checked .el-radio__inner{
+	border-color:$fontBtnBg;
+	background:$fontBtnBg;
 }
-.el-select-dropdown__item.selected{
-	color: $btnBg;
+.el-radio__input.is-checked+.el-radio__label{
+	color:$fontBtnBg;
 }
-.el-form-item.is-success .el-input__inner{
-	border-color: $lineBorderColor;
+.el-radio__inner:hover{
+	border-color:$fontBtnBg;
+}
+
+// 面包屑
+.el-breadcrumb{
+  padding:20px 0 ;
+  .el-breadcrumb__inner a:hover, .el-breadcrumb__inner:hover{
+    color:$frontMainColor;
+  }
 }
 
 
@@ -78,7 +90,7 @@
         border-color: $textViceHeaderColor;
     }
     input:focus, textarea:focus {
-        border-color: $link;
+        border-color: $fontBtnBg;
     }
 }
 input.el-input__inner::-webkit-input-placeholder, textarea.el-textarea__inner::-webkit-input-placeholder {
@@ -131,6 +143,9 @@ div.el-textarea.is-disabled .el-textarea__inner:-ms-input-placeholder {
 div.el-textarea.is-disabled .el-textarea__inner::placeholder {
     color: #c6c6c6;
 }
+.el-form-item.is-success .el-input__inner{
+	border:1px solid #e0e0e0;
+}
 
 // el-dialog 弹窗
 .qj-alertBox .el-dialog {
@@ -168,11 +183,11 @@ div.el-dialog {
       .dialog-footer {
           text-align: center;
           button {
-              background: $btnBg;
-              border-color: $btnBg;
+              background: $fontBtnBg;
+              border-color: $fontBtnBg;
               &:hover {
-                  background: $btnActive;
-                  border-color: $btnActive;
+                  background: $frontBtnActive;
+                  border-color: $frontBtnActive;
               }
           }
       }
@@ -196,43 +211,9 @@ div.el-dialog__wrapper.has-scroll {
 }
 
 .el-dialog__headerbtn:focus .el-dialog__close, .el-dialog__headerbtn:hover .el-dialog__close{
-  color: $link;
+  color: $fontBtnBg;
 }
 div .el-dialog .el-dialog__header .el-dialog__close:hover{
-  color: $link;
+  color: $fontBtnBg;
 }
 
-// ------------------- 表格样式 --------------
-.back-container{
-	height:100%;
-	.back-content{
-		position:relative;
-		padding:20px;
-		height:82%;
-
-		.add-btn{
-			position:absolute;
-			right: 20px;
-			top:13px;
-			z-index: 1004;
-			&.el-button {
-				padding:10px 16px;
-			}
-		}
-
-		.table-box{
-			height:83%;
-			cursor: pointer;
-			.operate{
-				padding:10px;
-				&:hover{
-					color:$btnActive;
-				}
-			}
-		}
-	}
-	.el-pagination{
-		text-align: right;
-		margin-top: 15px;
-	}
-}
