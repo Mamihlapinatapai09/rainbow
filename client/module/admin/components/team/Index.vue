@@ -77,7 +77,7 @@ import ContainerComponent from '../layout/Container.vue';
 export default{
 	created(){
 		const t = this;
-		t.ajaxGetTeam();
+		t.ajaxGetTeam(true);
 	},
 	data(){
 		return{
@@ -92,16 +92,7 @@ export default{
 				status:0  // 1 已删除 0已添加
 			},
 			activeTeam:{},
-			teamList:[
-				{
-					"id":0,
-					"name":"蓝天志愿者团队", //团队名称
-					"leaderName":"张三", //团队leader
-					"addtime":"1522476502772", //团队成立时间
-					"pic":"",  //团队照片
-					"status":0    // 1 已删除 0已添加
-				}
-			],
+			teamList:[],
 			//---------- 志愿者列表 ------
 			volunteerDialogVisible:false,
 			volunteerLen:10, 
@@ -125,7 +116,7 @@ export default{
 	methods:{
 		//----------  ajax请求 -----------
 		// 获取团队列表
-		ajaxGetTeam(){
+		ajaxGetTeam(updateTotalLen){
 			const t = this;
 			t.$http({
 				method:'post',
@@ -140,7 +131,10 @@ export default{
 					})
 				}
 				//数据保存
-				t.teamLen=result.data.num*result.data.maxPage;
+				if(updateTotalLen){
+					t.teamLen=result.data.num*result.data.maxPage;
+					console.log(t.teamLen);
+				}
 				t.teamList=result.data.list;
 
 				//时间格式转换
@@ -170,7 +164,16 @@ export default{
 				}
 
 				t.deleteDialogVisible = false;
-				t.ajaxGetTeam();
+
+				console.log(t.teamList.length)
+				if(t.teamList.length-1 <= 0) {
+					console.log('true');
+					t.ajaxGetTeam(true);
+				}else{
+					console.log('false');
+					t.ajaxGetTeam(false);
+				}
+				
 			})
 		},
 		// 获取志愿者列表
@@ -198,7 +201,7 @@ export default{
 		handlerPage(page){
 			const t = this;
 			t.pageParam['page'] = page;
-			t.ajaxGetTeam();
+			t.ajaxGetTeam(false);
 		},
 		// 切换tab
 		handlerTab(){
@@ -206,7 +209,7 @@ export default{
 			t.currentPage = 1;
 			t.pageParam['status'] = Number(t.activeTabName);
 			t.pageParam['page'] = 1;
-			t.ajaxGetTeam();
+			t.ajaxGetTeam(true);
 		},
 		//删除当前志愿活动
 		handlerDelete(scope){

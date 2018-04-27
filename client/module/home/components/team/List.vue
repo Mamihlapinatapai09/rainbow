@@ -11,10 +11,8 @@
 				<li class="list-item" 
 					v-for="item in teamList"
 					>
-					<span>{{item.name}}</span>
-					<span class="time">{{item.startDate}} ~ {{item.endDate}}</span>
-					<span class="num">招募人数：{{item.maxNum}}</span>
-					<span class="team">{{item.teamName}}</span>
+					<div class="team-pic"></div>
+					<p class="team-name">{{item.name}}</p>
 				</li>
 			</ul>
 		</div>
@@ -36,6 +34,7 @@ export default{
 				num:10,
 				status:0
 			},
+			listLen:0,
 			teamList:[]
 		}
 	},
@@ -49,10 +48,14 @@ export default{
 			}).then(res => {
 				const result = res.data;
 				if(!result.status){
-					// return t.$message({
-					// 	message:res
-					// })
+					return t.$message({
+						message:result.message,
+						type:'error'
+					})
 				}
+
+				t.listLen = result.data.maxPage * result.data.num;
+				t.teamList = result.data.list;
 			})
 		}
 	},
@@ -70,6 +73,23 @@ export default{
 	flex-direction:column;
 	.team-list-box {
 		flex:1;
+		margin:0 auto 80px auto;
+		width:1100px;
+		min-height: 390px;
+		.team-list{
+			margin:0 50px;
+			display:flex;
+			justify-content:center;
+			.list-item{
+				.team-pic{
+					margin:0 10px;
+					width:200px;
+					height:200px;
+					border:1px solid $lineBorderColor;
+				}
+			}
+		}
+		
 	}
 }	
 </style>

@@ -5,7 +5,7 @@
 				<!-- tabs切换 -->
 				<el-tabs v-model="activeTabName" @tab-click="handlerTab">
 					<el-tab-pane label="活动审批" name="0"></el-tab-pane>
-					<el-tab-pane label="志愿者审批" name="1"></el-tab-pane>
+					<el-tab-pane label="团队审批" name="1"></el-tab-pane>
 				</el-tabs>
 
 				<!-- table列表 -->
@@ -13,11 +13,16 @@
 					<el-table :data="approveList">
 						<el-table-column prop="volName" label="姓名"></el-table-column>
 						<el-table-column prop="mobile" label="手机号"></el-table-column>
-						<el-table-column prop="activityName" label="审批内容"></el-table-column>
+						<el-table-column prop="activityName" label="审批内容">
+							<template slot-scope="scope">
+								<span v-if="activeTabName == '0'">{{scope.row.activityName}}</span>
+								<span v-else>{{scope.row.teamName}}</span>
+							</template>
+						</el-table-column>
 						<el-table-column label="操作" align="center">
 							<template slot-scope="scope">
-								<span class="operate" @click.stop="handlerOperate(scope,1)">通过</span>
-								<span class="operate" @click.stop="handlerOperate(scope,2)">驳回</span>
+								<span class="operate" @click.stop="handlerOperate(scope,2)">通过</span>
+								<span class="operate" @click.stop="handlerOperate(scope,1)">驳回</span>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -66,18 +71,9 @@ export default{
 			pageParam:{
 				page:1,
 				num:6,
-				status:0  // (0 申请中 1 通过  2 拒绝)
+				status:0  // 0  申请中  1 拒绝  2 通过
 			},
-			approveList:[
-				{
-					"id":0, // 审批id
-					"volName":"张三", // 志愿者姓名
-					"mobile":"13166966115", // 志愿者手机号
-					"activityId":"123",  //  申请活动id
-					"activityName":"蓝天志愿者活动", // 申请活动名称
-					"status":1    // 0 未审批 1 通过 2 驳回
-				}
-			],
+			approveList:[],
 			operateDialogVisible:false
 		}
 	},
@@ -85,11 +81,11 @@ export default{
 		// ------- ajax请求 -------
 		ajaxGetApprove(){
 			const t = this;
-			let url = t.activeTabName === '0' ? '/apply/ajax-get-acticity-apply' :'/apply/ajax-get-team-apply'
+			let url = t.activeTabName === '0' ? '/apply/ajax-get-activity-apply' :'/apply/ajax-get-team-apply'
 			t.$http({
 				method:'post',
 				url:url,
-				body:t.pageParam
+				data:t.pageParam
 			}).then(res => {
 				const result = res.data;
 				if(!result.status) {
@@ -105,12 +101,12 @@ export default{
 		},
 		ajaxUpdateStatus(){
 			const t = this;
-			let url = t.activeTabName === '0'? '/apply/ajax-operate-team-apply' :'/apply/ajax-operate-acticity-apply'
+			let url = t.activeTabName === '0'? '/apply/ajax-operate-activity-apply' : '/apply/ajax-operate-team-apply'
 			t.$http({
 				method:'post',
 				url:url,
-				body:{
-					id:t.activeRow.activityId,
+				data:{
+					id:t.activeRow.id,
 					status:t.activeStatus
 				}
 			}).then(res => {
