@@ -72,6 +72,7 @@
 	</div>
 </template>
 <script>
+import {DateFormater} from 'assets/js/commonFunc.js'
 import ContainerComponent from '../layout/Container.vue';
 export default{
 	created(){
@@ -126,7 +127,6 @@ export default{
 		// 获取团队列表
 		ajaxGetTeam(){
 			const t = this;
-			console.log('111')
 			t.$http({
 				method:'post',
 				url:'/team/ajax-get-team-page-list',
@@ -142,6 +142,14 @@ export default{
 				//数据保存
 				t.teamLen=result.data.num*result.data.maxPage;
 				t.teamList=result.data.list;
+
+				//时间格式转换
+				let timeArr = ['addtime'];
+				t.teamList.forEach(item => {
+					timeArr.forEach(timeItem => {
+						item[timeItem] = DateFormater(new Date(item[timeItem]),'yyyy-MM-dd');
+					})
+				})
 			})
 		},
 		// 删除志愿者团队

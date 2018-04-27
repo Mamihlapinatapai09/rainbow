@@ -41,6 +41,8 @@ const router = new VueRouter({
 	]
 })
 
+commonConfig(store,router)
+
 new Vue({
 	router:router,
 	store:store

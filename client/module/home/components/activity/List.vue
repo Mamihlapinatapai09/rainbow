@@ -12,9 +12,9 @@
 					v-for="item in activityList"
 					@click="$router.push('/activity-list-item?activityId='+item.id)">
 					<span>{{item.name}}</span>
-					<span class="time">{{item.startTime}} ~ {{item.endTime}}</span>
-					<span class="num">剩余招募人数：{{item.num}}</span>
-					<span class="team">{{item.team}}</span>
+					<span class="time">{{item.startDate}} ~ {{item.endDate}}</span>
+					<span class="num">招募人数：{{item.maxNum}}</span>
+					<span class="team">{{item.teamName}}</span>
 				</li>
 			</ul>
 			<!-- 分页 -->
@@ -30,6 +30,7 @@
 	</div>
 </template>
 <script>
+import {DateFormater} from 'assets/js/commonFunc.js'
 import HeaderComponent from '../layout/Header.vue'
 import FooterComponent from '../layout/Footer.vue'
 export default {
@@ -44,13 +45,9 @@ export default {
 			pageParam:{
 				page:1,
 				num:10,
-				type:0
+				status:0
 			},
-			activityList:[
-				{id:'123',name:'爱心敬老院活动',team:'蓝天志愿者团队',num:10,startTime:'2017-10-12',endTime:'2018-02-08'},
-				{id:'123',name:'爱心敬老院活动',team:'蓝天志愿者团队',num:10,startTime:'2017-10-12',endTime:'2018-02-08'},
-				{id:'123',name:'爱心敬老院活动',team:'蓝天志愿者团队',num:10,startTime:'2017-10-12',endTime:'2018-02-08'},
-			]
+			activityList:[]
 		}
 	},
 	methods:{
@@ -60,7 +57,7 @@ export default {
 			t.$http({
 				method:'post',
 				url:'/activity/ajax-get-activity-list-by-type',
-				body:t.pageParam
+				data:t.pageParam
 			}).then(res => {
 				const result = res.data;
 				if(!result.status){
@@ -72,6 +69,13 @@ export default {
 
 				t.listLen = result.data.maxPage * result.data.num;
 				t.activityList = result.data.list;
+				// 日期转换
+				let timeArr = ['startDate','endDate'];
+				t.activityList.forEach(item => {
+					timeArr.forEach(timeItem => {
+						item[timeItem] = DateFormater(new Date(item[timeItem]),'yyyy-MM-dd');
+					})
+				})
 			})
 		},
 		// -------- 其他操作 -----------

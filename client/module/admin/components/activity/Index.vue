@@ -73,6 +73,7 @@
 	</div>
 </template>
 <script>
+import {DateFormater} from 'assets/js/commonFunc.js'
 import ContainerComponent from '../layout/Container.vue';
 
 export default{
@@ -92,17 +93,7 @@ export default{
 				num:6,
 				status:0  // 1删除 0进行 2结束
 			},
-			activityList:[
-				{
-					id:0,
-					name:'爱心敬老院志愿活动',
-					addtime:'2017-10-25',
-					startDate:'2017-10-25',
-					endDate:'2017-10-25',
-					teamName:'蓝天志愿者',
-					maxNum:12
-				}
-			],
+			activityList:[],
 			deleteDialogVisible:false,
 			activeRow:'',
 			volDialogVisible:false,
@@ -138,6 +129,13 @@ export default{
 
 				t.maxPage = result.data.num * result.data.maxPage;
 				t.activityList = result.data.list;
+				// 时间转换格式
+				let timeArr=['addtime','endDate','startDate'];
+				t.activityList.forEach(item => {
+					timeArr.forEach(timeItem => {
+						item[timeItem] = DateFormater(new Date(item[timeItem]),'yyyy-MM-dd');
+					})
+				})
 			})
 		},
 		// 删除

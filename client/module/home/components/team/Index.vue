@@ -19,6 +19,10 @@
 import Vue from 'vue'
 import $ from 'jQuery'
 export default{
+	created(){ 
+		const t = this;
+		t.ajaxGetTeam();
+	},
 	mounted(){
 		Vue.nextTick(function(){
 			$('li.team-item').mouseover(function(e) {
@@ -32,9 +36,28 @@ export default{
 	},
 	data(){
 		return {
-			imgList:['01.jpg','02.jpg','03.jpg','04.jpg','05.jpg','06.jpg']
+			imgList:['01.jpg','02.jpg','03.jpg','04.jpg','05.jpg','06.jpg'],
+			teamList:[]
 		}
 	},
+	methods:{
+		ajaxGetTeam(){
+			const t = this;
+			t.$http({
+				method:'post',
+				url:'/team/ajax-get-team-page-list',
+				data:{
+					page:1,
+					num:9,
+					status:0  // 1 已删除 0已添加
+				}
+			}).then(res => {
+				const result = res.data;
+				if(result.status) return;
+				t.teamList = result.data.list;
+			})
+		}
+	}
 }
 </script>
 <style lang="scss">

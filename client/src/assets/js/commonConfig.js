@@ -16,7 +16,6 @@ Vue.use(Vuex)
 export default (store,router,callBack) => {
     // axios request 拦截器
     axios.interceptors.request.use((config) => {
-        console.log(config)
         // 开发阶段拦截请求 改变content type 并且发序列化参数 配合后端使用
         config.headers['Accept'] = '*/*';
         config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';

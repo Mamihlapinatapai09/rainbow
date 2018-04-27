@@ -11,13 +11,13 @@
 			<div class="title">{{activityItem.name}}</div>
 			<div class="other">
 				<span>承办团队：{{activityItem.team}}</span>
-				<span>招募人数：{{activityItem.num}}人</span>
+				<span>招募人数：{{activityItem.maxNum}}人</span>
 			</div>
 			<div class="time">
-				<span>开始时间：{{activityItem.startTime}}</span>
-				<span>结束时间：{{activityItem.endTime}}</span>
+				<span>开始时间：{{activityItem.startDate}}</span>
+				<span>结束时间：{{activityItem.endDate}}</span>
 			</div>
-			<div class="desc" v-html="activityItem.description"></div>
+			<div class="desc" v-html="activityItem.note"></div>
 			<div class="join">
 				<el-button @click="joinDialogVisible = true">参与活动</el-button>
 			</div>
@@ -51,16 +51,7 @@ export default{
 	data(){
 		return {
 			activityId:'',
-			activityItem:{
-				"id":0,
-				"name":"爱心敬老院活动", // 活动名称
-				"startTime":"2017-12-10", // 开始时间
-				"endTime":"2017-5-12", // 结束时间
-				"description":`<div><p>这是活动的内容这是活动的内容这是活动的内容这是活动的内容这是活动的内容这是活动的内容</p><p>这是活动的内容这是活动的内容这是活动的内容这是活动的内容这是活动的内容这是活动的内容</p></div>` ,   // 描述
-				"team":"小小向日葵团队" ,   // 团队id
-				"num":0 ,   // 人数
-				"status":0 ,   // 0 进行中  1已结束  2 已删除
-			},
+			activityItem:{},
 			joinDialogVisible:false
 		}
 	},
@@ -71,9 +62,9 @@ export default{
 			const t = this;
 			t.$http({
 				method:'post',
-				url:'/',
-				body:{
-					activityId:t.activityId
+				url:'/activity/ajax-get-activity',
+				data:{
+					id:t.activityId
 				}
 			}).then(res => {
 				const result = res.data;

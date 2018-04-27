@@ -6,7 +6,7 @@
 				<li class="activity-item" 
 					v-for="item in activityList"
 					@click="$router.push('/activity-list-item?activityId='+item.id)">
-					<span class="time">{{item.time}}</span>
+					<span class="time">{{item.startDate}}</span>
 					<span class="name">{{item.name}}</span>
 				</li>
 			</ul>
@@ -15,6 +15,7 @@
 	</div>
 </template>
 <script>
+import {DateFormater} from 'assets/js/commonFunc.js'
 export default{
 	created(){
 		const t = this;
@@ -34,7 +35,7 @@ export default{
 				{id:'123',name:'活动9活动3',time:'10-02'},
 				{id:'123',name:'活动10活动3活动3',time:'10-02'},
 				{id:'123',name:'活动7活动3活动3活动3活动3',time:'10-02'},
-			]
+			],
 		}
 	},
 	methods:{
@@ -45,10 +46,10 @@ export default{
 			t.$http({
 				method:'post',
 				url:'/activity/ajax-get-activity-list-by-type',
-				body:{
+				data:{
 					page:1,
 					num:14,
-					type:0
+					status:0 // 1删除 0进行 2结束	
 				}
 			}).then(res => {
 				const result = res.data;
@@ -60,6 +61,13 @@ export default{
 				}
 
 				t.activityList = result.data.list;
+				//时间转换
+				let timeArr = ['startDate'];
+				t.activityList.forEach(item => {
+					timeArr.forEach(timeItem => {
+						item[timeItem] = DateFormater(new Date(item[timeItem]),'MM-dd');
+					})
+				})
 			})
 		}
 	}
