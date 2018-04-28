@@ -77,14 +77,14 @@ import ContainerComponent from '../layout/Container.vue';
 export default{
 	created(){
 		const t = this;
-		t.ajaxGetTeam(true);
+		t.ajaxGetTeam();
 	},
 	data(){
 		return{
 			activeTabName:"0",
 			activeSideBar:"team",
 			deleteDialogVisible:false,
-			teamLen:10,
+			teamLen:6,
 			currentPage:1,
 			pageParam:{
 				page:1,
@@ -131,9 +131,9 @@ export default{
 					})
 				}
 				//数据保存
-				if(updateTotalLen){
-					t.teamLen=result.data.num*result.data.maxPage;
-					console.log(t.teamLen);
+				let newTeamLen = 6*result.data.maxPage;
+				if(t.teamLen != newTeamLen){
+					t.teamLen = newTeamLen;
 				}
 				t.teamList=result.data.list;
 
@@ -165,15 +165,7 @@ export default{
 
 				t.deleteDialogVisible = false;
 
-				console.log(t.teamList.length)
-				if(t.teamList.length-1 <= 0) {
-					console.log('true');
-					t.ajaxGetTeam(true);
-				}else{
-					console.log('false');
-					t.ajaxGetTeam(false);
-				}
-				
+				t.ajaxGetTeam();
 			})
 		},
 		// 获取志愿者列表
@@ -201,7 +193,7 @@ export default{
 		handlerPage(page){
 			const t = this;
 			t.pageParam['page'] = page;
-			t.ajaxGetTeam(false);
+			t.ajaxGetTeam();
 		},
 		// 切换tab
 		handlerTab(){
@@ -209,7 +201,7 @@ export default{
 			t.currentPage = 1;
 			t.pageParam['status'] = Number(t.activeTabName);
 			t.pageParam['page'] = 1;
-			t.ajaxGetTeam(true);
+			t.ajaxGetTeam();
 		},
 		//删除当前志愿活动
 		handlerDelete(scope){

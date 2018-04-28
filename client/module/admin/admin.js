@@ -44,6 +44,10 @@ const router = new VueRouter({
 			component:resolve => require(['./components/new/Index.vue'], resolve),
 		},
 		{
+			path: '/add-new',
+			component:resolve => require(['./components/new/List.vue'], resolve),
+		},
+		{
 			path: '/volunteer',
 			component:resolve => require(['./components/volunteer/Index.vue'], resolve),
 		},
