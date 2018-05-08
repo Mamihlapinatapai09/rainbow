@@ -20,7 +20,7 @@
 			<!-- 分页 -->
 			<el-pagination
 			    layout="prev, pager, next"
-			    :page-size="6"
+			    :page-size="10"
 			    :total="listLen"
 			    @current-change="handlerPage"
 			    :current-page.sync="currentPage">

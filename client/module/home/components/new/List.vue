@@ -8,14 +8,22 @@
 			</el-breadcrumb>
 
 			<ul class="new-list">
-				<li class="list-item">1</li>
-				<li class="list-item">2</li>
+				<li class="list-item" 
+					v-for="item in newList"
+					@click="$router.push('/new-list-item?newId='+item.id)">
+					<span class="title">
+						<span class="top" v-if="item.top === 1">[顶置]</span>
+						<span>{{item.title}}</span>
+					</span>
+					<span class="time">{{item.addtime}}</span>
+					<span class="author">{{item.author}}</span>
+				</li>
 			</ul>
 
 			<!-- 分页 -->
 			<el-pagination
 			    layout="prev, pager, next"
-			    :page-size="6"
+			    :page-size="10"
 			    :total="listLen"
 			    @current-change="handlerPage"
 			    :current-page.sync="currentPage">
@@ -25,19 +33,59 @@
 	</div>
 </template>
 <script>
+import {DateFormater} from 'assets/js/commonFunc.js'
 import HeaderComponent from '../layout/Header.vue'
 import FooterComponent from '../layout/Footer.vue'
 
 export default {
+	created(){
+		const t = this;
+		t.ajaxGetNew();
+	},
 	data(){
 		return {
 			listLen:10,
-			currentPage:1
+			currentPage:1,
+			pageParam:{
+				page:1,
+				num:10,
+				status:0
+			},
+			newList:[]
 		}
 	},
 	methods:{
-		handlerPage(){
+		ajaxGetNew(){
 			const t = this;
+			t.$http({
+				method:'post',
+				url:'/news/ajax-get-news-list',
+				data:t.pageParam
+			}).then(res => {
+				const result = res.data;
+				if(!result.status) return;
+
+				t.newList = result.data.list;
+
+				let newPageLen = 10*result.data.maxPage;
+				if(t.listLen != newPageLen){
+					t.listLen = newPageLen;
+				}
+
+				//时间格式转换
+				let timeArr = ['addtime'];
+				t.newList.forEach(item => {
+					timeArr.forEach(timeItem => {
+						item[timeItem] = DateFormater(new Date(item[timeItem]),'yyyy-MM-dd');
+					})
+				})
+			})
+		},
+		handlerPage(page){
+			const t = this;
+			console.log(page);
+			t.pageParam['page'] = page;
+			t.ajaxGetNew();
 		}
 	},
 	components:{
@@ -65,6 +113,25 @@ export default {
 				&:hover{
 					background: #f7f7f7;
 					color:$frontMainColor;
+				}
+				span{
+					vertical-align:middle;
+				}
+				.top{
+					color:#f56c6c;
+				}
+				.title{
+					display:inline-block;
+					width:60%;
+					white-space:nowrap;
+					text-overflow:ellipsis;
+					overflow:hidden;
+				}
+				.time{
+					float:right;
+				}
+				.author{
+					margin-left:15px;
 				}
 			}
 		}

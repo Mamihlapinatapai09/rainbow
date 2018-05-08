@@ -4,9 +4,10 @@
 
 		<div class="new-list">
 			<ul class="new-ul">
-				<li class="new-item" v-for="item in newList">
-					<span class="time">{{item.time}}</span>
-					<span class="name">{{item.name}}</span>
+				<li class="new-item" v-for="item in newList"
+					@click="$router.push('/new-list-item?newId='+item.id)">
+					<span class="time">{{item.addtime}}</span>
+					<span class="name"><span class="top" v-if="item.top === 1">[顶]</span>&nbsp;{{item.title}}</span>
 				</li>
 			</ul>
 		</div>
@@ -15,25 +16,42 @@
 	</div>
 </template>
 <script>
+import {DateFormater} from 'assets/js/commonFunc.js'
 export default{
+	created(){
+		const t = this;
+		t.ajaxGetNew();
+	},
 	data(){
 		return {
-			newList:[
-				{name:'活动1活动1活动1活动1活动1活动1活动1活动1活动1活动1活动1活动1活动1活动1活动1活动1',time:'10-02'},
-				{name:'活动2',time:'10-02'},
-				{name:'活动3活动3活动3活动3活动3活动3活动3活动3活动3',time:'10-02'},
-				{name:'活动4活动3活动3',time:'10-02'},
-				{name:'活动5活动3活动3活动3活动3',time:'10-02'},
-				{name:'活动6活动3活动3活动3活动3活动3',time:'10-02'},
-				{name:'活动活动3',time:'10-02'},
-				{name:'活动8活动3活动3活动3',time:'10-02'},
-				{name:'活动9活动3活动3',time:'10-02'},
-				{name:'活动10活动3活动3活动3活动3',time:'10-02'},
-				{name:'活动活动3',time:'10-02'},
-				{name:'活动8活动3活动3活动3',time:'10-02'},
-				{name:'活动9活动3活动3',time:'10-02'},
-				{name:'活动10活动3活动3活动3活动3',time:'10-02'},
-			]
+			newList:[]
+		}
+	},
+	methods:{
+		ajaxGetNew(){
+			const t = this;
+			t.$http({
+				method:'post',
+				url:'/news/ajax-get-news-list',
+				data:{
+					page:1,
+					num:14,
+					status:0
+				}
+			}).then(res => {
+				const result = res.data;
+				if(!result.status) return;
+
+				t.newList = result.data.list;
+
+				//时间格式转换
+				let timeArr = ['addtime'];
+				t.newList.forEach(item => {
+					timeArr.forEach(timeItem => {
+						item[timeItem] = DateFormater(new Date(item[timeItem]),'MM-dd');
+					})
+				})
+			})
 		}
 	}
 }	
@@ -74,6 +92,9 @@ export default{
 			font-size:14px;
 			line-height:1.5;
 			cursor:pointer;
+			.top{
+				color:#f56c6c;
+			}
 			.time,.name{
 				display:inline-block;
 				margin-bottom:2px;

@@ -85,16 +85,10 @@ export default{
 			pageParam:{
 				page:1,
 				num:6,
-				type:1  // 0 已删除 1已添加
+				type:0  // 0 已删除 1已添加
 			},
 			volunteerLen:10,
-			volunteerList:[{
-				"id":0,
-				"name":"张三", // 姓名
-				"mobile":"13166966115", // 手机号
-				"time":"2017-10-25", // 注册时间
-				"status":1    // 0 已注册 1已注销
-			}],
+			volunteerList:[],
 			deleteDialogVisible:false,
 			activeVolunteer:'',
 			// --------- 活动列表 ----------
@@ -151,7 +145,7 @@ export default{
 			t.$http({
 				method:'post',
 				url:'/volunteer/ajax-log-out-volunteers',
-				body:t.activeVolunteer
+				data:t.activeVolunteer
 			}).then(res => {
 				const result = res.data;
 				if(!result.status){
