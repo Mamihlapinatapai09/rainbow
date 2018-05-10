@@ -10,11 +10,21 @@
 			<ul class="team-list">
 				<li class="list-item" 
 					v-for="item in teamList"
+					@click="$router.push('/team-list-item?teamId='+item.id)"
 					>
 					<div class="team-pic"></div>
 					<p class="team-name">{{item.name}}</p>
 				</li>
 			</ul>
+
+			<!-- 分页 -->
+			<el-pagination
+			    layout="prev, pager, next"
+			    :page-size="10"
+			    :total="listLen"
+			    @current-change="handlerPage"
+			    :current-page.sync="currentPage">
+			</el-pagination>
 		</div>
 		<footer-component></footer-component>
 	</div>
@@ -35,7 +45,8 @@ export default{
 				status:0
 			},
 			listLen:0,
-			teamList:[]
+			teamList:[],
+			currentPage:1
 		}
 	},
 	methods:{
@@ -53,10 +64,17 @@ export default{
 						type:'error'
 					})
 				}
-
-				t.listLen = result.data.maxPage * result.data.num;
+				let newPageLen = 10*result.data.maxPage;
+				if(t.listLen != newPageLen){
+					t.listLen = newPageLen;
+				}
 				t.teamList = result.data.list;
 			})
+		},
+		handlerPage(page){
+			const t = this;
+			t.pageParam['page'] = page;
+			t.ajaxGetList();
 		}
 	},
 	components:{
@@ -72,24 +90,45 @@ export default{
 	display:flex;
 	flex-direction:column;
 	.team-list-box {
+		position:relative;
 		flex:1;
 		margin:0 auto 80px auto;
 		width:1100px;
 		min-height: 390px;
 		.team-list{
-			margin:0 50px;
-			display:flex;
-			justify-content:center;
+			width:1200px;
+			margin:0 auto;
 			.list-item{
+				display:inline-block;
+				cursor:pointer;
 				.team-pic{
 					margin:0 10px;
 					width:200px;
 					height:200px;
 					border:1px solid $lineBorderColor;
 				}
+				.team-name{
+					padding-left: 20px;
+					height:45px;
+					line-height:45px;
+				}
+				&:hover{
+					.team-pic{
+						border:1px solid $frontBtnActive;
+					}
+					.team-name{
+						color:$fontBtnBg;
+					}
+				}
 			}
 		}
-		
+		.el-pagination{
+			position:absolute;
+			bottom: -50px;
+			right:0;
+			text-align: right;
+			margin-top: 15px;
+		}
 	}
 }	
 </style>

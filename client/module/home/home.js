@@ -41,6 +41,10 @@ const router = new VueRouter({
 		{
 			path:'/team-list',
 			component:resolve => require(['./components/team/List.vue'], resolve)
+		},
+		{
+			path:'/team-list-item',
+			component:resolve => require(['./components/team/ListItem.vue'], resolve)
 		}
 	]
 })

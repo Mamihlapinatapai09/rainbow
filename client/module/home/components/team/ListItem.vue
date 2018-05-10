@@ -1,17 +1,17 @@
 <template>
-	<div class="new-page-content">
+	<div class="team-page-content">
 		<header-component></header-component>
-		<div class="new-page-box">
+		<div class="team-page-box">
 			<el-breadcrumb separator-class="el-icon-arrow-right">
 			  <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-			  <el-breadcrumb-item :to="{ path: '/new-list' }">新闻快报</el-breadcrumb-item>
-			  <el-breadcrumb-item>{{newItem.title}}</el-breadcrumb-item>
+			  <el-breadcrumb-item :to="{ path: '/team-list' }">志愿团队</el-breadcrumb-item>
+			  <el-breadcrumb-item>{{teamItem.name}}</el-breadcrumb-item>
 			</el-breadcrumb>
 
-			<div class="title">{{newItem.title}}</div>
-			<div class="author">作者：{{newItem.author}}</div>
-			<div class="time">发布时间：{{newItem.addtime}}</div>
-			<div class="desc" v-html="newItem.content"></div>
+			<div class="name">{{teamItem.name}}</div>
+			<div class="leader">团队领导：{{teamItem.leaderName}}</div>
+			<div class="time">成立时间：{{teamItem.addtime}}</div>
+			<div class="desc" v-html="teamItem.note"></div>
 		</div>
 		<footer-component></footer-component>
 	</div>
@@ -23,13 +23,13 @@ import FooterComponent from '../layout/Footer.vue'
 export default{
 	created(){
 		const t = this;
-		t.newId = t.$route.query.newId;
+		t.teamId = t.$route.query.teamId;
 		t.ajaxGetItem();
 	},
 	data(){
 		return {
-			newId:'',
-			newItem:''
+			teamId:'',
+			teamItem:''
 		}
 	},
 	methods:{
@@ -37,18 +37,22 @@ export default{
 			const t = this;
 			t.$http({
 				method:'post',
-				url:'/news/ajax-news-detail',
+				url:'/team/ajax-get-team',
 				data:{
-					id:t.newId
+					id:t.teamId
 				}
 			}).then(res => {
 				const result = res.data;
-				if(!result.status) return;
+				if(!result.status){
+					return t.$message({
+						message:result.message,
+						type:'error'
+					})
+				}
 
-				t.newItem = result.data;
-
+				t.teamItem = result.data;
 				//时间格式转换
-				t.newItem['addtime'] = DateFormater(new Date(t.newItem['addtime']),'yyyy-MM-dd');		
+				t.teamItem['addtime'] = DateFormater(new Date(t.teamItem['addtime']),'yyyy-MM-dd');
 			})
 		}
 	},
@@ -56,20 +60,20 @@ export default{
 		'header-component':HeaderComponent,
 		'footer-component':FooterComponent
 	}
-}	
+}
 </script>
 <style lang="scss">
 @import '../../../../src/assets/scss/baseParams.scss';
-.new-page-content{
+.team-page-content{
 	min-height:100%;
 	display: flex;
 	flex-direction:column;
-	.new-page-box{
+	.team-page-box{
 		flex:1;
 		margin:20px auto 0 auto;
 		width:1100px;
 		text-align: center;
-		.title{
+		.name{
 			margin-bottom: 30px;
 			font-size: 22px;
 			line-height: 2;
@@ -78,28 +82,10 @@ export default{
 		.author{
 			font-size:16px;
 			color:#555;
-			span{
-				margin-right: 10px;
-			}
-		}
-		.time{
-			margin-top:5px;
-			font-size:12px;
-			color:#c6c6c6;
-			span{
-				margin-right: 10px;
-			}
 		}
 		.desc{
 			margin-top:30px;
 		}
-		.join{
-			margin-top:40px;
-			.el-button{
-				background:$frontMainColor;
-				border-color:$frontMainColor;
-			}
-		}
 	}
-}
+}	
 </style>
