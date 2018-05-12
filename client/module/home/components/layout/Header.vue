@@ -15,8 +15,8 @@
 				<el-form-item label="手机号：" prop="mobile">
 					<el-input v-model="loginList.mobile" placeholder="请输入正确的手机号"></el-input>
 				</el-form-item>
-				<el-form-item label="密码：" prop="password">
-					<el-input type="password" v-model="loginList.password" placeholder="请输入密码"></el-input>
+				<el-form-item label="密码：" prop="pwd">
+					<el-input type="password" v-model="loginList.pwd" placeholder="请输入密码"></el-input>
 				</el-form-item>
 			</el-form>
 			<span slot="footer" class="dialog-footer">
@@ -71,7 +71,7 @@ export default {
 			loginDialogVisible:false,
 			loginList:{
 				mobile:'',
-				password:''
+				pwd:''
 			},
 			regDialogVisible:false,
 			regList:{
@@ -95,12 +95,12 @@ export default {
 					t.$http({
 						method:'post',
 						url:'/volunteer/ajax-sign-volunteer',
-						body:t.loginList
+						data:t.loginList
 					}).then(res => {
-						const result = result.data;
+						const result = res.data;
 						t.ajaxLoginStatus  = result.status;
 						if(!result.status){
-							return t.$refs['loginForm'].validateField('password');
+							return t.$refs['loginForm'].validateField('pwd');
 						}
 						// 用户信息session存储
 						t.loginDialogVisible = false;
@@ -113,12 +113,12 @@ export default {
 		// 注册
 		ajaxReg(){
 			const t = this;
-			t.$ref['regForm'].validate(valid => {
+			t.$refs['regForm'].validate(valid => {
 				if(valid){
 					t.$http({
 						method:'post',
 						url:'/volunteer/ajax-add-volunteer',
-						body:t.regList
+						data:t.regList
 					}).then(res => {
 						const result = res.data;
 						if(!result.status){
@@ -180,7 +180,7 @@ export default {
 					{required:true,message:'不能为空',trigger: 'blur'},
 					{validator:Verify.validateMobile,trigger: 'blur'}
 				],
-				password:[
+				pwd:[
 					{required:true,message:'不能为空',trigger: 'blur'},
 					{min:6,max:8,message:'长度在6~8位',trigger: 'blur'},
 					{validator:t.validatePassword,trigger: 'blur'},
