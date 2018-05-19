@@ -15,29 +15,64 @@
 
 			<!-- 列表 -->
 			<ul>
-				<li>1</li>
+				<li class="tab-li" v-for="item in tabList">
+					<span v-if="activeTabName == 0">{{item.activityName}}</span>
+					<span v-else>{{item.teamName}}</span>
+					<span class="status" :class="'status'+item.status">{{item.status === 0 ? '申请中' : item.status === 1 ? '拒绝' : '通过'}}</span>
+				</li>
 			</ul>
 		</div>
 		<footer-component></footer-component>
 	</div>
 </template>
 <script>
+import {mapGetters} from 'vuex';
 import HeaderComponent from '../layout/Header.vue'
 import FooterComponent from '../layout/Footer.vue'
 export default{
 	created(){
 		const t = this;
 		t.activeTabName = t.$route.query.type.toString();
+		t.$store.commit('updateUser');
+		t.ajaxGetTeam();
 	},
 	data(){
 		return {
-			activeTabName:"0"
+			activeTabName:"0",
+			pageParam:{
+				page:1,
+				num:10,
+				id:''
+			},
+			tabList:[]
 		}
 	},
 	methods:{
 		handlerTab(){
 			const t = this;
+			t.ajaxGetTeam();
+		},
+		ajaxGetTeam(){
+			const t = this;
+			let url = t.activeTabName == 0 ? '/apply/ajax-get-my-activity-apply' : '/team/ajax-get-my-team';
+
+			t.pageParam['id'] = t.userMes.id;
+
+			t.$http({
+				method:'post',
+				url:url,
+				data:t.pageParam
+			}).then(res => {
+				const result = res.data;
+				if(!result.status) return;
+				t.tabList = result.data.list;
+			})
 		}
+	},
+	computed:{
+		...mapGetters({
+			'userMes': 'getUser'
+		})
 	},
 	components:{
 		'header-component':HeaderComponent,
@@ -54,6 +89,26 @@ export default{
 		flex:1;
 		margin: 0 auto;
 		width:1100px;
+		.tab-li{
+			padding:0 20% 0 10px;
+			line-height:40px;
+			cursor:pointer;
+			&:hover{
+				background:#f7f7f7;
+			}
+			.status{
+				float: right;
+				&.status0{
+					color:#ff861d;
+				}
+				&.status1{
+					color:#c4c4c4;
+				}
+				&.status2{
+					color:#2fd3a1;
+				}
+			}
+		}
 	}
 }	
 </style>

@@ -10,7 +10,12 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
 	state:{
-		test:'this is home str'
+		test:'this is home str',
+		userMes:{
+			name:'未',
+			teamNum:0,
+			activityNum:0,
+		}
 	},
 	getters:list_getters,
 	mutations:list_mutations,

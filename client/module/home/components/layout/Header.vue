@@ -1,10 +1,15 @@
 <template>
 	<div class="header-container">
 		<div class="header-box">
-			<div class="operation">
-				<span @click="handlerLogin">登陆</span>
+			<div class="operation" >
+				<span v-if="!userStatus" @click="handlerLogin">登陆</span>
+				<div class="user" v-else>
+					<span>欢迎您！{{userMes.name}}</span>
+					<span @click="handlerExit">退出</span>
+				</div>
 				<span @click="handlerRegister">注册</span>
 			</div>
+
 			<img class="header-bg" src="../../../../src/assets/img/bg.jpg" alt="">
 		</div>
 
@@ -63,8 +68,16 @@
 	</div>
 </template>
 <script>
+import {mapGetters} from 'vuex';
 import Verify from 'assets/js/Verify.js';
 export default {
+	created(){
+		const t = this;
+		t.$store.commit('updateUser');
+		if(!!sessionStorage.getItem('user_message')){
+			t.userStatus = true;
+		}
+	},
 	data(){
 		return {
 			ajaxLoginStatus:true,
@@ -82,7 +95,8 @@ export default {
 				idcode:'',
 				pwd:'',
 				checkPwd:''
-			}
+			},
+			userStatus:false,
 		}
 	},
 	methods:{
@@ -92,18 +106,13 @@ export default {
 			const t = this;
 			t.$refs['loginForm'].validate(valid => {
 				if(valid){
-					t.$http({
-						method:'post',
-						url:'/volunteer/ajax-sign-volunteer',
-						data:t.loginList
-					}).then(res => {
-						const result = res.data;
-						t.ajaxLoginStatus  = result.status;
-						if(!result.status){
-							return t.$refs['loginForm'].validateField('pwd');
+					t.$store.dispatch('ajaxGetUser',t.loginList).then(res => {
+						if(res.status){
+							t.loginDialogVisible = false;
+							if(!!sessionStorage.getItem('user_message')){
+								t.userStatus = true;
+							}
 						}
-						// 用户信息session存储
-						t.loginDialogVisible = false;
 					})
 				}else{
 					return false;
@@ -156,6 +165,12 @@ export default {
 			t.regDialogVisible = false;
 			t.$refs['regForm'].resetFields();
 		},
+		// 用户退出
+		handlerExit(){
+			const t = this;
+			sessionStorage.setItem('user_message','');
+			t.userStatus = false;
+		},
 		validatePassword(rule, value, callback){
 			const t = this;
 			if(!t.ajaxLoginStatus){
@@ -173,6 +188,9 @@ export default {
 		}
 	},
 	computed:{
+		...mapGetters({
+			'userMes': 'getUser'
+		}),
 		loginRules(){
 			const t = this;
 			return {
@@ -231,6 +249,9 @@ export default {
 			background:#707070;
 			color:#fff;
 			text-align:right;
+			.user{
+				display:inline;
+			}
 			span{
 				display:inline-block;
 				margin-right:10px;

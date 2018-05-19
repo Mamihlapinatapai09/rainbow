@@ -80,25 +80,34 @@ export default{
 		// 参与活动
 		ajaxJoin(){
 			const t = this;
+			// t.$http({
+			// 	method:'post',
+			// 	url:'/apply/ajax-apply-join-activity',
+			// 	data:{
+			// 		activityId:t.activityId,
+			// 		volunteerId:3
+			// 	}
+			// }).then(res => {
+			// })
 			t.$http({
 				method:'post',
-				url:'/',
-				body:{
-					activityId:t.activityId,
-					volunteerId:t.activityItem.id
+				url:'/apply/ajax-apply-join-team',
+				data:{
+					teamId:3,
+					volunteerId:3
 				}
 			}).then(res => {
-				const t = this;
-				if(!result.status){
-					return t.$message({
-						message:result.message,
-						type:'error'
-					})
-				}
-				t.$message({
-					message:result.message,
-					type:'success'
-				})
+				// const t = this;
+				// if(!result.status){
+				// 	return t.$message({
+				// 		message:result.message,
+				// 		type:'error'
+				// 	})
+				// }
+				// t.$message({
+				// 	message:result.message,
+				// 	type:'success'
+				// })
 			})
 		},
 		//--------- 页面操作 ----------

@@ -3,9 +3,9 @@
 		<container-component :activeSideBar="activeSideBar">
 			<div class="back-content">
 				<!-- tabs切换 -->
-				<el-tabs v-model="activeTabName" @click="handlerTab">
-					<el-tab-pane label="已注册" name="1"></el-tab-pane>
-					<el-tab-pane label="已注销" name="0"></el-tab-pane>
+				<el-tabs v-model="activeTabName" @tab-click="handlerTab">
+					<el-tab-pane label="已注册" name="0"></el-tab-pane>
+					<el-tab-pane label="已注销" name="1"></el-tab-pane>
 				</el-tabs>
 
 				<!-- table列表 -->
@@ -14,7 +14,7 @@
 						<el-table-column prop="name" label="姓名"></el-table-column>
 						<el-table-column prop="mobile" label="手机号"></el-table-column>
 						<el-table-column prop="time" label="注册时间"></el-table-column>
-						<el-table-column v-if="activeTabName === '1'" label="操作" align="center">
+						<el-table-column v-if="activeTabName === '0'" label="操作" align="center">
 							<template slot-scope="scope">
 								<span class="operate" @click.stop="handlerDelete(scope)">注销</span>
 							</template>
@@ -80,15 +80,21 @@ export default{
 		return{
 			// -------  志愿者部分 --------
 			activeSideBar:"volunteer",
-			activeTabName:"1",
+			activeTabName:"0",
 			currentPage:1,
 			pageParam:{
 				page:1,
 				num:6,
-				type:0  // 0 已删除 1已添加
+				status:0  // 0 已删除 1已添加
 			},
 			volunteerLen:10,
-			volunteerList:[],
+			volunteerList:[
+				{
+					name:'志愿者一号',
+					mobile:'15600820909',
+					time:'2018-03-02'
+				}
+			],
 			deleteDialogVisible:false,
 			activeVolunteer:'',
 			// --------- 活动列表 ----------
@@ -141,11 +147,13 @@ export default{
 		// 注销志愿者
 		ajaxDelete(){
 			const t = this;
-			t.activeVolunteer['status']=0;
+			
 			t.$http({
 				method:'post',
-				url:'/volunteer/ajax-log-out-volunteers',
-				data:t.activeVolunteer
+				url:'/volunteer/ajax-log-out-volunteer',
+				data:{
+					id:t.activeVolunteer.id
+				}
 			}).then(res => {
 				const result = res.data;
 				if(!result.status){
@@ -166,7 +174,7 @@ export default{
 			t.$http({
 				method:'post',
 				url:'/volunteer/ajax-get-volunteer-activity',
-				body:t.activityPageParam
+				data:t.activityPageParam
 			}).then(res => {
 				const result = res.data;
 				if(!result.status){
@@ -196,6 +204,7 @@ export default{
 		// 注销志愿者
 		handlerDelete(scope){
 			const t = this;
+			console.log(scope)
 			t.activeVolunteer = scope.row;
 			t.deleteDialogVisible = true;
 		},
