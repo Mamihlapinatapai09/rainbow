@@ -21,6 +21,17 @@
 					<span class="status" :class="'status'+item.status">{{item.status === 0 ? '申请中' : item.status === 1 ? '拒绝' : '通过'}}</span>
 				</li>
 			</ul>
+
+			<!-- 分页 -->
+			<!-- 分页 -->
+			<el-pagination
+				v-if="loading"
+			    layout="prev, pager, next"
+			    :page-size="10"
+			    :total="listLen"
+			    @current-change="handlerPage"
+			    :current-page.sync="currentPage">
+			</el-pagination>
 		</div>
 		<footer-component></footer-component>
 	</div>
@@ -44,12 +55,16 @@ export default{
 				num:10,
 				id:''
 			},
-			tabList:[]
+			tabList:[],
+			listLen:2,
+			currentPage:1,
+			loading:false
 		}
 	},
 	methods:{
 		handlerTab(){
 			const t = this;
+			t.pageParam['page'] = 1;
 			t.ajaxGetTeam();
 		},
 		ajaxGetTeam(){
@@ -57,7 +72,7 @@ export default{
 			let url = t.activeTabName == 0 ? '/apply/ajax-get-my-activity-apply' : '/team/ajax-get-my-team';
 
 			t.pageParam['id'] = t.userMes.id;
-
+			t.loading = false;
 			t.$http({
 				method:'post',
 				url:url,
@@ -65,8 +80,18 @@ export default{
 			}).then(res => {
 				const result = res.data;
 				if(!result.status) return;
+				let newLen = 10*result.data.maxPage;
+				if(t.listLen != newLen){
+					t.listLen = newLen;
+				}
 				t.tabList = result.data.list;
+				t.loading = true;
 			})
+		},
+		handlerPage(page){
+			const t = this;
+			t.pageParam['page'] = page;
+			t.ajaxGetTeam();
 		}
 	},
 	computed:{
@@ -108,6 +133,10 @@ export default{
 					color:#2fd3a1;
 				}
 			}
+		}
+		.el-pagination{
+			margin-top:10px;
+			float:right;
 		}
 	}
 }	

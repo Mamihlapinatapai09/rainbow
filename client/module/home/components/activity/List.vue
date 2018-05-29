@@ -66,8 +66,10 @@ export default {
 						type:'error'
 					})
 				}
-
-				t.listLen = result.data.maxPage * result.data.num;
+				let newLen = 10*result.data.maxPage;
+				if(t.listLen != newLen){
+					t.listLen = newLen;
+				}
 				t.activityList = result.data.list;
 				// 日期转换
 				let timeArr = ['startDate','endDate'];

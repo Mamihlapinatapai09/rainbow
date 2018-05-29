@@ -46,9 +46,9 @@ export default{
 				if(!result.status) return;
 
 				t.newItem = result.data;
-
+				console.log(t.newItem['addtime'])
 				//时间格式转换
-				t.newItem['addtime'] = DateFormater(new Date(t.newItem['addtime']),'yyyy-MM-dd');		
+				t.newItem['addtime'] = DateFormater(new Date(Number(t.newItem['addtime']+'000')),'yyyy-MM-dd');		
 			})
 		}
 	},

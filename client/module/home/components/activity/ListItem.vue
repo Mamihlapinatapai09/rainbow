@@ -18,7 +18,7 @@
 				<span>结束时间：{{activityItem.endDate}}</span>
 			</div>
 			<div class="desc" v-html="activityItem.note"></div>
-			<div class="join">
+			<div class="join" v-if="userStatus">
 				<el-button @click="joinDialogVisible = true">参与活动</el-button>
 			</div>
 		</div>
@@ -40,6 +40,8 @@
 	</div>
 </template>
 <script>
+import {mapGetters} from 'vuex';
+import {DateFormater} from 'assets/js/commonFunc.js'
 import HeaderComponent from '../layout/Header.vue'
 import FooterComponent from '../layout/Footer.vue'
 export default{
@@ -75,42 +77,46 @@ export default{
 					})
 				}
 				t.activityItem = result.data;
+				// 日期转换
+				let timeArr = ['startDate','endDate'];
+				timeArr.forEach(timeItem => {
+					t.activityItem[timeItem] = DateFormater(new Date(t.activityItem[timeItem]),'yyyy-MM-dd');
+				})
 			})
 		},
 		// 参与活动
 		ajaxJoin(){
 			const t = this;
-			// t.$http({
-			// 	method:'post',
-			// 	url:'/apply/ajax-apply-join-activity',
-			// 	data:{
-			// 		activityId:t.activityId,
-			// 		volunteerId:3
-			// 	}
-			// }).then(res => {
-			// })
 			t.$http({
 				method:'post',
-				url:'/apply/ajax-apply-join-team',
+				url:'/apply/ajax-apply-join-activity',
 				data:{
-					teamId:3,
-					volunteerId:3
+					activityId:t.activityId,
+					volunteerId:t.userMes.id
 				}
 			}).then(res => {
-				// const t = this;
-				// if(!result.status){
-				// 	return t.$message({
-				// 		message:result.message,
-				// 		type:'error'
-				// 	})
-				// }
-				// t.$message({
-				// 	message:result.message,
-				// 	type:'success'
-				// })
+				const result = res.data;
+				if(!result.status){
+					return t.$message({
+						type:'error',
+						message:'参与失败，请重新参与！'
+					})
+				}
+				t.$message({
+					type:'success',
+					message:'参与成功！'
+				})
+				t.joinDialogVisible = false;
 			})
+			
 		},
 		//--------- 页面操作 ----------
+	},
+	computed:{
+		...mapGetters({
+			'userMes': 'getUser',
+			'userStatus':'getUserStatus'
+		})
 	},
 	components:{
 		'header-component':HeaderComponent,

@@ -15,7 +15,8 @@ const store = new Vuex.Store({
 			name:'未',
 			teamNum:0,
 			activityNum:0,
-		}
+		},
+		userStatus:false
 	},
 	getters:list_getters,
 	mutations:list_mutations,

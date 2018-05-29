@@ -94,8 +94,12 @@ export default{
 						type:'error'
 					})
 				}
+				let newPageLen = 6*result.data.maxPage;
+				if(t.approveLen != newPageLen){
+					t.approveLen = newPageLen;
+				}
 
-				t.approveLen = result.data.maxPage * result.data.num;
+				// t.approveLen = result.data.maxPage * result.data.num;
 				t.approveList = result.data.list;
 			})
 		},

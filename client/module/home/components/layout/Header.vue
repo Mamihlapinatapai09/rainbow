@@ -108,10 +108,16 @@ export default {
 				if(valid){
 					t.$store.dispatch('ajaxGetUser',t.loginList).then(res => {
 						if(res.status){
+							t.$message({
+								type:'success',
+								message:'登陆成功！'
+							})
 							t.loginDialogVisible = false;
 							if(!!sessionStorage.getItem('user_message')){
 								t.userStatus = true;
 							}
+							// 表单重置
+							t.$refs['loginForm'].resetFields();
 						}
 					})
 				}else{
@@ -132,12 +138,17 @@ export default {
 						const result = res.data;
 						if(!result.status){
 							return t.$message({
-								message:result.message,
+								message:'注册失败，请重新注册！',
 								type:'error'
 							})
 						}
-						// 用户信息session存储
+						t.$message({
+							type:'success',
+							message:'注册成功，请进行登陆！'
+						})
 						t.regDialogVisible = false;
+						// 表单重置
+						t.$refs['regForm'].resetFields();
 					})
 				}else{
 					return false;
@@ -169,6 +180,7 @@ export default {
 		handlerExit(){
 			const t = this;
 			sessionStorage.setItem('user_message','');
+			t.$store.commit('updateUserStatus');
 			t.userStatus = false;
 		},
 		validatePassword(rule, value, callback){

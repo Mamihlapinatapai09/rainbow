@@ -54,7 +54,14 @@ const router = new VueRouter({
 	]
 })
 
-commonConfig(store,router)
+commonConfig(store,router);
+
+router.beforeEach((to,from,next) => {
+	if(!window.location.href.match(/admin$/) && !sessionStorage.getItem('admin_message')){
+		window.location.href = '/admin';
+	}
+	next();
+})
 
 new Vue({
 	router:router,
