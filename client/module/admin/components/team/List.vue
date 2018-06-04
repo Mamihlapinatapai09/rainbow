@@ -14,15 +14,17 @@
 								:value="item.id"></el-option>
 						</el-select>
 					</el-form-item>
-					<!-- <el-form-item label="团队照片" prop="image">
+					<el-form-item label="团队照片" prop="image">
 						<el-upload
 						  class="avatar-uploader"
-						  action="https://jsonplaceholder.typicode.com/posts/"
-						  :show-file-list="false">
+						  action="/extra/ajax-upload"
+						  :show-file-list="false"
+						  :before-upload="beforeAvatarUpload"
+						  :on-success="handleAvatarSuccess">
 						  <img v-if="imageUrl" :src="imageUrl" class="avatar">
 						  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
 						</el-upload>
-					</el-form-item> -->
+					</el-form-item>
 					<el-form-item label="团队介绍" prop="note">
 						<div id="editor"></div>
 					</el-form-item>
@@ -67,7 +69,8 @@ export default{
 				note:''
 			},
 			volunteersList:[],
-			editor:''
+			editor:'',
+			imageUrl:''
 		}
 	},
 	methods:{
@@ -92,6 +95,10 @@ export default{
 				}
 
 				t.teamTemplate = result.data;
+				t.imageUrl = 'http://'+t.teamTemplate['pic'];
+				// console.log(t.imageUrl)
+				//编辑器内容填充
+				t.editor.txt.html(t.teamTemplate.note);
 			})
 		},
 		// 获取志愿者列表
@@ -135,6 +142,15 @@ export default{
 			const t = this;
 			t.editor = new wangEditor('#editor');
 			t.editor.customConfig.uploadImgShowBase64 = true; //图片base64编码
+			// 自定义菜单配置
+		    t.editor.customConfig.menus = [
+		        'head',
+		        'bold',
+		        'italic',
+		        'underline',
+		        'fontSize',
+		        'fontName', 
+		    ]
 			t.editor.create();
 		},
 		handlerUpdateList(){
@@ -150,6 +166,27 @@ export default{
 					return false;
 				}
 			})
+		},
+		// 图片上传前
+		beforeAvatarUpload(file){
+			const isJPG = file.type === 'image/jpeg';
+	        const isLt2M = file.size / 1024 / 1024 < 2;
+
+	        if (!isJPG) {
+	          this.$message.error('上传头像图片只能是 JPG 格式!');
+	        }
+	        if (!isLt2M) {
+	          this.$message.error('上传头像图片大小不能超过 2MB!');
+	        }
+	        return isJPG && isLt2M;
+		},
+		// 照片上传成功
+		handleAvatarSuccess(res,file){
+			const t = this;
+			this.imageUrl = URL.createObjectURL(file.raw);
+
+			//图片名称写入表单字段
+			t.teamTemplate['pic'] = res.data;
 		}
 	},
 	computed:{
@@ -171,5 +208,27 @@ export default{
 }	
 </script>
 <style lang="scss">
-	
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }	
 </style>

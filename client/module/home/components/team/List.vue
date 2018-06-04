@@ -12,7 +12,9 @@
 					v-for="item in teamList"
 					@click="$router.push('/team-list-item?teamId='+item.id)"
 					>
-					<div class="team-pic"></div>
+					<div class="team-pic">
+						<img :src="item.pic" width="100%" height="100%" alt="">
+					</div>
 					<p class="team-name">{{item.name}}</p>
 				</li>
 			</ul>
@@ -69,6 +71,9 @@ export default{
 					t.listLen = newPageLen;
 				}
 				t.teamList = result.data.list;
+				t.teamList.forEach(item => {
+					item.pic = "http://"+item.pic;
+				})
 			})
 		},
 		handlerPage(page){
@@ -106,6 +111,8 @@ export default{
 					width:200px;
 					height:200px;
 					border:1px solid $lineBorderColor;
+					overflow:hidden;
+					border-radius:15px;
 				}
 				.team-name{
 					padding-left: 20px;

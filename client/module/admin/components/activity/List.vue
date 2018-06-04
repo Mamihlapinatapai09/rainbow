@@ -113,6 +113,9 @@ export default{
 				t.activityForm['endDate'] = new Date(t.activityForm['endDate']);
 
 				t.activityForm['status'] = !t.activityForm['status'];
+
+				//编辑器内容填充
+				t.editor.txt.html(t.activityForm.note);
 			})
 		},
 		// 获取团队列表
@@ -165,6 +168,16 @@ export default{
 			const t = this;
 			t.editor = new wangEditor('#editor');
 			t.editor.customConfig.uploadImgShowBase64 = true; //图片base64编码
+
+			// 自定义菜单配置
+		    t.editor.customConfig.menus = [
+		        'head',
+		        'bold',
+		        'italic',
+		        'underline',
+		        'fontSize',
+		        'fontName', 
+		    ]
 			t.editor.create();
 		},
 		// 数据处理

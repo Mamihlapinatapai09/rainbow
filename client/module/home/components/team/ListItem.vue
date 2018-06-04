@@ -11,6 +11,9 @@
 			<div class="name">{{teamItem.name}}</div>
 			<div class="leader">团队领导：{{teamItem.leaderName}}</div>
 			<div class="time">成立时间：{{teamItem.addtime}}</div>
+			<div class="pic">
+				<img :src="teamItem.pic" height="250" alt="">
+			</div>
 			<div class="desc" v-html="teamItem.note"></div>
 			<div class="join" v-if="userStatus">
 				<el-button @click="joinDialogVisible = true">加入团队</el-button>
@@ -69,6 +72,7 @@ export default{
 				}
 
 				t.teamItem = result.data;
+				t.teamItem['pic'] = 'http://'+t.teamItem['pic'];
 				//时间格式转换
 				t.teamItem['addtime'] = DateFormater(new Date(t.teamItem['addtime']),'yyyy-MM-dd');
 			})
@@ -130,6 +134,9 @@ export default{
 		.author{
 			font-size:16px;
 			color:#555;
+		}
+		.pic{
+			margin-top:15px;
 		}
 		.desc{
 			margin-top:30px;
