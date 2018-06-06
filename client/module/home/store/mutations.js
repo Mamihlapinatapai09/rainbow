@@ -13,5 +13,20 @@ export const updateUser = (state,param) => {
 }
 
 export const updateUserStatus = (state,param) => {
+	state.userMes={
+		name:'未',
+		teamNum:0,
+		activityNum:0,	
+	}
 	state.userStatus = false;
+}
+
+export const updateActivityNum = (state,param) => {
+	state.userMes.activityNum += 1;
+	sessionStorage.setItem('user_message',JSON.stringify(state.userMes));
+}
+
+export const updateTeamNum = (state,param) => {
+	state.userMes.teamNum += 1;
+	sessionStorage.setItem('user_message',JSON.stringify(state.userMes));
 }

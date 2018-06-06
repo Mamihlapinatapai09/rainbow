@@ -4,8 +4,8 @@
 			<div class="avatar">{{userMes.name.substring(0,1)}}</div>
 		</div>
 		<div class="person-body">
-			<span class="first" @click="$router.push('/person-list?type=0')">我的活动<br>（{{userMes.activityNum}}）</span>
-			<span @click="$router.push('/person-list?type=1')">我的团队<br>（{{userMes.teamNum}}）</span>
+			<span class="first" @click="goDetail(0)">我的活动<br>（{{userMes.activityNum}}）</span>
+			<span @click="goDetail(1)">我的团队<br>（{{userMes.teamNum}}）</span>
 		</div>
 	</div>
 </template>
@@ -18,6 +18,22 @@ export default{
 	},
 	data(){
 		return{
+		}
+	},
+	methods:{
+		goDetail(type){
+			const t = this;
+			if(!sessionStorage.getItem('user_message')){
+				return t.$message({
+					message:'请先登录',
+					type:'error'
+				})
+			}
+			if(type === 1){
+				t.$router.push('/person-list?type=1')
+			}else{
+				t.$router.push('/person-list?type=0')
+			}
 		}
 	},
 	computed:{

@@ -11,9 +11,9 @@
 				<!-- table列表 -->
 				<div class="table-box">
 					<el-table :data="volunteerList" @row-click="handlerActivity">
-						<el-table-column prop="name" label="姓名"></el-table-column>
+						<el-table-column prop="name" label="姓名"  :show-overflow-tooltip="true"></el-table-column>
 						<el-table-column prop="mobile" label="手机号"></el-table-column>
-						<el-table-column prop="time" label="注册时间"></el-table-column>
+						<el-table-column prop="email" label="邮箱"  :show-overflow-tooltip="true"></el-table-column>
 						<el-table-column v-if="activeTabName === '0'" label="操作" align="center">
 							<template slot-scope="scope">
 								<span class="operate" @click.stop="handlerDelete(scope)">注销</span>
@@ -48,8 +48,8 @@
 			:visible.sync="activityDialogVisible">
 			<div>
 				<el-table :data="activityList">
-					<el-table-column prop="name" label="活动"></el-table-column>
-					<el-table-column prop="teamName" label="团队"></el-table-column>
+					<el-table-column prop="name" label="活动" :show-overflow-tooltip="true"></el-table-column>
+					<el-table-column prop="teamName" label="团队" :show-overflow-tooltip="true"></el-table-column>
 					<el-table-column prop="startDate" label="开始时间"></el-table-column>
 					<el-table-column prop="endDate" label="结束时间"></el-table-column>
 				</el-table>
@@ -70,6 +70,7 @@
 	</div>
 </template>
 <script>
+import {DateFormater} from 'assets/js/commonFunc.js'
 import ContainerComponent from '../layout/Container.vue';
 export default{
 	created(){
@@ -98,7 +99,7 @@ export default{
 			deleteDialogVisible:false,
 			activeVolunteer:'',
 			// --------- 活动列表 ----------
-			activityLen:10, 
+			activityLen:1, 
 			activityCurrentPage:1,
 			activityPageParam:{
 				page:1,
@@ -106,21 +107,8 @@ export default{
 				volunteerId:''
 			},
 			activityDialogVisible:false,
-			activityList:[{
-			    "id": 0,
-			    "name": "蓝天志愿者", 
-			    "status":"0",  
-			    "teamName":"蓝天志愿者团队",  
-			    "startDate":"2017-10-25",  
-			    "endDate":"2017-10-25" 
-			},{
-			    "id": 0,
-			    "name": "蓝天志愿者",  
-			    "status":"0",  
-			    "teamName":"蓝天志愿者团队",  
-			    "startDate":"2017-10-25",  
-			    "endDate":"2017-10-25"  
-			}]
+			activityList:[],
+			teamId:''  //team id-name列表
 		}
 	},
 	methods:{
@@ -140,7 +128,10 @@ export default{
 						type:'error'
 					})
 				}
-				t.volunteerLen = result.data.maxPage * result.data.page;
+				let newLen = 6*result.data.maxPage;
+				if(t.volunteerLen != newLen){
+					t.volunteerLen = newLen;
+				}
 				t.volunteerList = result.data.list;
 			})
 		},
@@ -156,9 +147,17 @@ export default{
 				}
 			}).then(res => {
 				const result = res.data;
+				if(result.code === 201){
+					t.$message({
+						message:'志愿者有正在参与的活动或团队leader，不能删除！',
+						type:'error'
+					})
+					t.deleteDialogVisible = false;
+					return;
+				}
 				if(!result.status){
 					return t.$message({
-						message:result.message,
+						message:'注销失败！',
 						type:'error'
 					})
 				}
@@ -183,7 +182,38 @@ export default{
 						type:'error'
 					})
 				}
+				let newLen = 4*result.data.maxPage;
+				if(t.activityLen != newLen){
+					t.activityLen = newLen;
+				}
 				t.activityList = result.data.list;
+				t.activityList.forEach((activity,index) => {
+					t.teamId.forEach(team => {
+						if(activity.teamId == team.id){
+							t.$set(t.activityList[index],'teamName',team.name);
+						}
+					})
+				});
+				// 时间转换格式
+				let timeArr=['startDate','endDate'];
+				t.activityList.forEach(item => {
+					timeArr.forEach(timeItem => {
+						item[timeItem] = DateFormater(new Date(item[timeItem]),'yyyy-MM-dd');
+					})
+				})
+			})
+		},
+		ajaxGetTeamId(){
+			const t = this;
+			t.$http({
+				method:'post',
+				url:'/team/ajax-get-team-id-name-list'
+			}).then(res => {
+				const result = res.data;
+				if(!result.status){return};
+				t.teamId = result.data;
+				// 获取活动
+				t.ajaxGetActive();
 			})
 		},
 		// ------ 其他操作 --------
@@ -197,14 +227,13 @@ export default{
 		handlerTab(){
 			const t = this;
 			t.currentPage = 1;
-			t.pageParam['type'] = Number(t.activeTabName);
+			t.pageParam['status'] = Number(t.activeTabName);
 			t.pageParam['page'] = 1;
 			t.ajaxGetVolunteer();
 		},
 		// 注销志愿者
 		handlerDelete(scope){
 			const t = this;
-			console.log(scope)
 			t.activeVolunteer = scope.row;
 			t.deleteDialogVisible = true;
 		},
@@ -213,7 +242,7 @@ export default{
 			const t = this;
 			t.activeVolunteer = row;
 			t.activityDialogVisible = true;
-			t.ajaxGetActive();
+			t.ajaxGetTeamId();
 		},
 		// 志愿活动换页
 		handlerActivityPage(page){

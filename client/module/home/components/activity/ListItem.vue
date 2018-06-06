@@ -106,6 +106,7 @@ export default{
 					type:'success',
 					message:'参与成功！'
 				})
+				t.$store.commit('updateActivityNum');
 				t.joinDialogVisible = false;
 			})
 			

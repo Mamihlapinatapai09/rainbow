@@ -98,6 +98,7 @@ export default{
 					type:'success',
 					message:'参与成功！'
 				})
+				t.$store.commit('updateTeamNum');
 				t.joinDialogVisible = false;
 			})
 		}

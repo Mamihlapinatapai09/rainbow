@@ -188,7 +188,7 @@ export default{
 			//处理数据
 			postData.endDate = new Date(postData.endDate).getTime();
 			postData.startDate = new Date(postData.startDate).getTime();
-			postData.status = postData.status ? 0 : 1;
+			postData.status = postData.status ? 0 : 2;
 			postData.note = t.editor.txt.html();
 			return postData;
 		},

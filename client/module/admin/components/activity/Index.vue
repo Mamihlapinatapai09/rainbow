@@ -13,12 +13,12 @@
 				<!-- table列表 -->
 				<div class="table-box">
 					<el-table :data="activityList" @row-click="handlerVolunteer">
-						<el-table-column prop="name" label="姓名"></el-table-column>
+						<el-table-column prop="name" label="名称" :show-overflow-tooltip="true"></el-table-column>
 						<el-table-column prop="addtime" label="发起时间"></el-table-column>
 						<el-table-column prop="startDate" label="开始时间"></el-table-column>
 						<el-table-column prop="endDate" label="结束时间"></el-table-column>
-						<el-table-column prop="teamName" label="团队"></el-table-column>
-						<el-table-column prop="maxNum" label="剩余人数"></el-table-column>
+						<el-table-column prop="teamName" label="团队" :show-overflow-tooltip="true"></el-table-column>
+						<el-table-column prop="maxNum" label="招募人数"></el-table-column>
 						<el-table-column label="操作" align="center" v-if="activeTabName != 1">
 							<template slot-scope="scope">
 								<span class="operate" @click.stop="handlerOperate(scope,1)">编辑</span>
@@ -104,9 +104,7 @@ export default{
 				num:6,
 				id:''
 			},
-			volunteerList:[
-				{'name':'wang','mobile':'13166966115'}
-			]
+			volunteerList:[]
 		}
 	},
 	methods:{
@@ -126,8 +124,11 @@ export default{
 						type:'error'
 					})
 				}
-
-				t.maxPage = result.data.num * result.data.maxPage;
+				let newLen = 6*result.data.maxPage;
+				if(t.maxPage != newLen){
+					t.maxPage = newLen;
+				}
+		
 				t.activityList = result.data.list;
 				// 时间转换格式
 				let timeArr=['addtime','endDate','startDate'];
@@ -157,7 +158,7 @@ export default{
 						type:'error'
 					})
 				}
-				t.deleteDialogVisible = true;
+				t.deleteDialogVisible = false;
 				// 重新获取数据
 				t.ajaxGetActivity();
 				return t.$message({
